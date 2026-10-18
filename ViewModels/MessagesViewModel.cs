@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CampusCart.Models;
+using CampusCart.Services;
 
 namespace CampusCart.ViewModels;
 
@@ -16,6 +17,7 @@ public sealed class MessagesViewModel : BaseViewModel
     ];
 
     public ObservableCollection<Conversation> Conversations { get; } = new();
+    public string UserInitials => AppSession.Initials;
     public ICommand OpenConversationCommand { get; }
 
     public string SearchText
@@ -29,6 +31,8 @@ public sealed class MessagesViewModel : BaseViewModel
 
     public MessagesViewModel()
     {
+        AppSession.Changed += OnSessionChanged;
+
         OpenConversationCommand = new Command<Conversation>(async conversation =>
         {
             if (conversation is null) return;
@@ -40,6 +44,9 @@ public sealed class MessagesViewModel : BaseViewModel
         });
         FilterConversations();
     }
+
+    private void OnSessionChanged(object? sender, EventArgs e) =>
+        OnPropertyChanged(nameof(UserInitials));
 
     private void FilterConversations()
     {

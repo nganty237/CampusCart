@@ -18,6 +18,7 @@ public sealed class RequestsViewModel : BaseViewModel
     ];
 
     public ObservableCollection<ServiceRequest> Requests { get; } = new();
+    public string UserInitials => AppSession.Initials;
     public string SentTabLabel => $"Envoyées · {RequestFlowStore.SentRequests.Count}";
     public string ReceivedTabLabel => $"Reçues · {RequestFlowStore.ReceivedRequestCount}";
     public Color SentTabBackground => _showSent ? Color.FromArgb("#315CEB") : Colors.White;
@@ -29,10 +30,15 @@ public sealed class RequestsViewModel : BaseViewModel
 
     public RequestsViewModel()
     {
+        AppSession.Changed += OnSessionChanged;
+
         ShowSentCommand = new Command(() => SetTab(true));
         ShowReceivedCommand = new Command(() => SetTab(false));
         LoadRequests();
     }
+
+    private void OnSessionChanged(object? sender, EventArgs e) =>
+        OnPropertyChanged(nameof(UserInitials));
 
     public void RefreshRequests()
     {

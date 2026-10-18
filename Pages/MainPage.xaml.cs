@@ -15,6 +15,7 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        ViewModel.RefreshUser();
         ViewModel.RefreshServices();
     }
 }

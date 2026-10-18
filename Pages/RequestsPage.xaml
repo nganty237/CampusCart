@@ -19,7 +19,7 @@
                     </VerticalStackLayout>
                     <Border Grid.Column="1" HeightRequest="44" WidthRequest="44" BackgroundColor="#DCE6FF"
                             StrokeThickness="0" StrokeShape="RoundRectangle 22">
-                        <Label Text="NG" FontSize="15" FontAttributes="Bold" TextColor="#315CEB"
+                        <Label Text="{Binding UserInitials}" FontSize="15" FontAttributes="Bold" TextColor="#315CEB"
                                HorizontalOptions="Center" VerticalOptions="Center" />
                     </Border>
                 </Grid>

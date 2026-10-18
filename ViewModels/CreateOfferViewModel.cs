@@ -12,8 +12,7 @@ public sealed class CreateOfferViewModel : BaseViewModel
     public OfferDraft Draft => OfferManagementStore.Draft;
     public string TitleCountLabel => $"{Draft.Title.Length} / 60 caractères";
     public string PublisherName => AppSession.FullName;
-    public string PublisherInitials => string.Join("", PublisherName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-        .Take(2).Select(part => char.ToUpperInvariant(part[0])));
+    public string PublisherInitials => AppSession.GetInitials(PublisherName);
     public string PublisherRole => "Étudiant en ingénierie L2";
     public int CurrentStep => OfferManagementStore.CurrentStep;
     public bool IsStepOne => CurrentStep == 1;

@@ -7,8 +7,7 @@ public sealed class ProfileViewModel : BaseViewModel
 {
     public string FullName => AppSession.FullName;
     public string Email => AppSession.Email;
-    public string Initials => string.Join("", FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-        .Take(2).Select(part => char.ToUpperInvariant(part[0])));
+    public string Initials => AppSession.Initials;
     public ICommand LogoutCommand { get; }
     public ICommand OpenOffersCommand { get; }
     public ICommand CreateOfferCommand { get; }

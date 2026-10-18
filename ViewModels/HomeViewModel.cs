@@ -13,6 +13,8 @@ public sealed class HomeViewModel : BaseViewModel
 
     public ObservableCollection<ServiceCategory> Categories { get; } = new();
     public ObservableCollection<ServiceListing> Services { get; } = new();
+    public string Greeting => $"Bonjour, {AppSession.FullName}";
+    public string UserInitials => AppSession.Initials;
     public ICommand PublishCommand { get; }
     public ICommand ToggleFavoriteCommand { get; }
     public ICommand OpenServiceCommand { get; }
@@ -29,6 +31,8 @@ public sealed class HomeViewModel : BaseViewModel
 
     public HomeViewModel()
     {
+        AppSession.Changed += OnSessionChanged;
+
         Categories.Add(new("Impression", MaterialDesignIconsOutlinedRegular.Print, Color.FromArgb("#EEF3FF"), "Documents, rapports..."));
         Categories.Add(new("Aide tech", MaterialDesignIconsOutlinedRegular.Computer, Color.FromArgb("#EEF7FA"), "Installation, d\u00E9pannage..."));
         Categories.Add(new("Soutien scolaire", MaterialDesignIconsOutlinedRegular.School, Color.FromArgb("#F2F1FF"), "Cours, exercices..."));
@@ -60,6 +64,12 @@ public sealed class HomeViewModel : BaseViewModel
         });
     }
 
+    public void RefreshUser()
+    {
+        OnPropertyChanged(nameof(Greeting));
+        OnPropertyChanged(nameof(UserInitials));
+    }
+
     public void RefreshServices()
     {
         var allServices = _seedServices.Concat(OfferManagementStore.MyOffers
@@ -86,4 +96,6 @@ public sealed class HomeViewModel : BaseViewModel
     {
         RefreshServices();
     }
+
+    private void OnSessionChanged(object? sender, EventArgs e) => RefreshUser();
 }

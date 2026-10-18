@@ -17,8 +17,7 @@ public static class OfferManagementStore
         var draft = Draft;
         var (glyph, color) = CategoryStyle(draft.Category);
         var studentName = AppSession.FullName;
-        var initials = string.Join("", studentName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-            .Take(2).Select(part => char.ToUpperInvariant(part[0])));
+        var initials = AppSession.GetInitials(studentName);
         var listing = new ServiceListing
         {
             Title = draft.Title.Trim(),

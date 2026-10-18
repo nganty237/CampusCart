@@ -18,7 +18,7 @@
                 <!-- En-tête personnalisé -->
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="14" VerticalOptions="Center">
                     <VerticalStackLayout Spacing="3" VerticalOptions="Center">
-                        <Label Text="Bonjour, Gabriel" FontSize="22" FontAttributes="Bold" TextColor="#17223A" />
+                        <Label Text="{Binding Greeting}" FontSize="22" FontAttributes="Bold" TextColor="#17223A" />
                         <HorizontalStackLayout Spacing="5">
                             <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.LocationOn}"
                                               IconSize="14" IconColor="#788397" WidthRequest="16" HeightRequest="16" />
@@ -33,7 +33,7 @@
                         </Border>
                         <Border Grid.Column="1" HeightRequest="42" WidthRequest="42" StrokeThickness="0"
                                 StrokeShape="RoundRectangle 21" BackgroundColor="#DCE6FF">
-                            <Label Text="NG" FontSize="11" FontAttributes="Bold" TextColor="#315CEB"
+                            <Label Text="{Binding UserInitials}" FontSize="11" FontAttributes="Bold" TextColor="#315CEB"
                                    HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
                     </Grid>
