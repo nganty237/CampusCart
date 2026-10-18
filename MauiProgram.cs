@@ -2,6 +2,10 @@
 
 using IconFont.Maui.MaterialDesignIcons;
 
+#if MAUI_DEVFLOW
+using Microsoft.Maui.DevFlow.Agent;
+#endif
+
 namespace CampusCart;
 
 public static class MauiProgram
@@ -17,6 +21,10 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+#if MAUI_DEVFLOW
+		builder.AddMauiDevFlowAgent();
+#endif
 
 		builder.Services.AddSingleton<ViewModels.HomeViewModel>();
 		builder.Services.AddSingleton<ViewModels.AuthViewModel>();

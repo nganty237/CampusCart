@@ -47,6 +47,7 @@
                 <Label Text="Mot de passe" FontSize="12" TextColor="#292D36" />
                 <Entry Text="{Binding Password}" Placeholder="Ton mot de passe" IsPassword="True"
                        BackgroundColor="White" TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="48" />
+                <Label Text="Au moins 8 caractères." FontSize="10" TextColor="#858B98" />
                 <Label Text="{Binding PasswordError}" FontSize="10" TextColor="#E5484D" />
             </VerticalStackLayout>
 

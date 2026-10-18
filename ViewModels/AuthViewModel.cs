@@ -33,14 +33,13 @@ public sealed class AuthViewModel : BaseViewModel
         OpenRegistrationCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(CampusCart.Pages.InscriptionPage)));
         OpenSignInCommand = new Command(async () => await Shell.Current.GoToAsync("//login"));
         OpenLandingCommand = new Command(async () => await Shell.Current.GoToAsync("//landing"));
-        ForgotPasswordCommand = new Command(async () => await Shell.Current.DisplayAlertAsync(
-            "Mot de passe oubli\u00E9 ?", "La r\u00E9initialisation du mot de passe sera disponible prochainement.", "OK"));
+        ForgotPasswordCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(CampusCart.Pages.ForgotPasswordPage)));
     }
 
     private async Task SignInAsync()
     {
         EmailError = IsCampusEmail(Email) ? string.Empty : "Saisis une adresse e-mail valide.";
-        PasswordError = string.IsNullOrWhiteSpace(Password) ? "Saisis ton mot de passe." : string.Empty;
+        PasswordError = Password.Length >= 8 ? string.Empty : "8 caract\u00E8res minimum.";
         if (!string.IsNullOrEmpty(EmailError) || !string.IsNullOrEmpty(PasswordError)) return;
 
         AppSession.SignIn(Email);
