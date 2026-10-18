@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.CreateRequestPage"
+             x:DataType="vm:CreateRequestViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="18,22,18,24" Spacing="16">
+                <Grid ColumnDefinitions="40,*" ColumnSpacing="10">
+                    <Button Text="&#xE5C4;" FontFamily="MaterialDesignIconsOutlined" FontSize="23"
+                            TextColor="#202B43" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
+                            Padding="0" Command="{Binding BackCommand}" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="Ta demande" FontSize="20" FontAttributes="Bold" TextColor="#171B24" />
+                        <Label Text="{Binding Offer.Title}" FontSize="11" TextColor="#818897" LineBreakMode="TailTruncation" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5" HeightRequest="4">
+                    <BoxView Color="#315CEB" CornerRadius="2" />
+                    <BoxView Grid.Column="1" Color="#315CEB" CornerRadius="2" />
+                    <BoxView Grid.Column="2" Color="#DCE2EF" CornerRadius="2" />
+                </Grid>
+
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 15" Padding="13">
+                    <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="10">
+                        <Border HeightRequest="44" WidthRequest="44" BackgroundColor="{Binding Offer.ImageBackground}"
+                                StrokeThickness="0" StrokeShape="RoundRectangle 22">
+                            <Label Text="{Binding Offer.ProviderInitials}" FontSize="13" FontAttributes="Bold"
+                                   TextColor="#315CEB" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="{Binding Offer.Provider}" FontSize="12" FontAttributes="Bold" TextColor="#252A33" />
+                            <Label Text="{Binding Offer.ProviderLevel}" FontSize="10" TextColor="#818897" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="{Binding Offer.Price}" FontSize="12" FontAttributes="Bold"
+                               TextColor="#F05A38" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <VerticalStackLayout Spacing="7">
+                    <Label Text="Détail de ta demande" FontSize="15" FontAttributes="Bold" TextColor="#20232B" />
+                    <Label Text="Précise quand et où vous pourrez vous retrouver." FontSize="11" TextColor="#818897" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Date et heure souhaitées" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                    <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1"
+                            StrokeShape="RoundRectangle 11" Padding="11,1">
+                        <Entry Text="{Binding RequestedTime}" Placeholder="Ex. Demain · 14:00"
+                               FontSize="12" TextColor="#333A48" PlaceholderColor="#969EAC" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Lieu de remise" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                    <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1"
+                            StrokeShape="RoundRectangle 11" Padding="11,1">
+                        <Entry Text="{Binding HandoverLocation}" Placeholder="Ex. Bibliothèque centrale"
+                               FontSize="12" TextColor="#333A48" PlaceholderColor="#969EAC" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="{Binding MessageLabel}" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                    <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1"
+                            StrokeShape="RoundRectangle 11" Padding="10,5">
+                        <Editor Text="{Binding Message}" Placeholder="Présente ton besoin et pose tes questions..."
+                                FontSize="12" TextColor="#333A48" PlaceholderColor="#969EAC"
+                                AutoSize="TextChanges" MinimumHeightRequest="105" />
+                    </Border>
+                    <Label Text="Tu pourras partager tes fichiers dans la conversation après l'envoi." FontSize="10" TextColor="#818897" />
+                </VerticalStackLayout>
+
+                <Label Text="{Binding ValidationMessage}" FontSize="11" TextColor="#D94B54" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#E6E9EF" StrokeThickness="1" Padding="18,12">
+            <Button Text="Envoyer ma demande" Command="{Binding SubmitCommand}"
+                    BackgroundColor="#315CEB" TextColor="White" FontSize="13" FontAttributes="Bold"
+                    CornerRadius="12" HeightRequest="48" MaximumWidthRequest="444" HorizontalOptions="Center" />
+        </Border>
+    </Grid>
+</ContentPage>

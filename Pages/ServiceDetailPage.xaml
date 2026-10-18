@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             x:Class="CampusCart.Pages.ServiceDetailPage"
+             x:DataType="vm:ServiceDetailViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="18,22,18,24" Spacing="16">
+                <Grid ColumnDefinitions="40,*" ColumnSpacing="10">
+                    <Button Text="&#xE5C4;" FontFamily="MaterialDesignIconsOutlined" FontSize="23"
+                            TextColor="#202B43" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
+                            Padding="0" Command="{Binding BackCommand}" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label FontSize="19" FontAttributes="Bold" TextColor="#171B24" LineBreakMode="TailTruncation">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="L'offre de " />
+                                    <Span Text="{Binding Offer.Provider}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label Text="{Binding Offer.Location}" FontSize="11" TextColor="#818897" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="#DCE6FF" StrokeThickness="0" StrokeShape="RoundRectangle 16" HeightRequest="184">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                        <controls:AppIcon Glyph="{Binding Offer.IconGlyph}" IconSize="42" IconColor="#315CEB" />
+                        <Label Text="{Binding Offer.Category}" FontSize="11" FontAttributes="Bold"
+                               TextColor="#315CEB" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding Offer.PriceNote}" FontSize="11" TextColor="#315CEB"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 15" Padding="15">
+                    <VerticalStackLayout Spacing="10">
+                        <Border HorizontalOptions="Start" BackgroundColor="#F1F4FA" StrokeThickness="0"
+                                StrokeShape="RoundRectangle 12" Padding="10,5">
+                            <Label Text="{Binding Offer.Category}" FontSize="10" TextColor="#65718A" />
+                        </Border>
+                        <Label Text="{Binding Offer.Title}" FontSize="20" FontAttributes="Bold" TextColor="#171B24" />
+                        <Label Text="{Binding Offer.Description}" FontSize="13" TextColor="#70798A" LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 15" Padding="14">
+                    <Grid ColumnDefinitions="48,*" ColumnSpacing="11" RowDefinitions="Auto,Auto">
+                        <Border HeightRequest="46" WidthRequest="46" BackgroundColor="{Binding Offer.ImageBackground}"
+                                StrokeThickness="0" StrokeShape="RoundRectangle 23">
+                            <Label Text="{Binding Offer.ProviderInitials}" FontSize="14" FontAttributes="Bold"
+                                   TextColor="#315CEB" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="{Binding Offer.Provider}" FontSize="13" FontAttributes="Bold" TextColor="#252A33" />
+                            <Label Text="{Binding Offer.ProviderLevel}" FontSize="11" TextColor="#818897" />
+                        </VerticalStackLayout>
+                        <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="5" Margin="0,8,0,0">
+                            <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Star}"
+                                              IconSize="16" IconColor="#E6A72E" WidthRequest="18" HeightRequest="18" />
+                            <Label Text="{Binding Offer.Rating}" FontSize="11" FontAttributes="Bold" TextColor="#48536A" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Label Text="{Binding Offer.Availability}" FontSize="11" TextColor="#28A56F" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#E6E9EF" StrokeThickness="1" Padding="18,12">
+            <Grid MaximumWidthRequest="444" HorizontalOptions="Center" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                    <Label Text="{Binding Offer.Price}" FontSize="17" FontAttributes="Bold" TextColor="#F05A38" />
+                    <Label Text="{Binding Offer.PriceNote}" FontSize="10" TextColor="#818897" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1" Text="Demander" Command="{Binding RequestCommand}"
+                        BackgroundColor="#315CEB" TextColor="White" FontSize="13" FontAttributes="Bold"
+                        CornerRadius="12" Padding="20,0" HeightRequest="48" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

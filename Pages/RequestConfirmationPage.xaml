@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             x:Class="CampusCart.Pages.RequestConfirmationPage"
+             x:DataType="vm:RequestConfirmationViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout MaximumWidthRequest="440" HorizontalOptions="Center"
+                             Padding="22,34,22,28" Spacing="18">
+            <Border HeightRequest="88" WidthRequest="88" BackgroundColor="#E8F7EF"
+                    StrokeThickness="0" StrokeShape="RoundRectangle 44" HorizontalOptions="Center">
+                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Check}"
+                                  IconSize="42" IconColor="#279B68" />
+            </Border>
+
+            <VerticalStackLayout Spacing="7">
+                <Label Text="Demande envoyée !" FontSize="24" FontAttributes="Bold" TextColor="#182238"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Ta demande a bien été transmise à l'étudiant. Tu peux suivre son évolution dans tes demandes."
+                       FontSize="13" TextColor="#778195" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+
+            <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16" Padding="15">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Récapitulatif" FontSize="14" FontAttributes="Bold" TextColor="#20232B" />
+                    <BoxView HeightRequest="1" Color="#EEF0F4" />
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10">
+                        <Label Text="Service" FontSize="11" TextColor="#818897" />
+                        <Label Grid.Column="1" Text="{Binding Request.Title}" FontSize="11" FontAttributes="Bold"
+                               TextColor="#343A46" HorizontalTextAlignment="End" />
+                        <Label Grid.Row="1" Text="Étudiant" FontSize="11" TextColor="#818897" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Request.ContactName}" FontSize="11"
+                               TextColor="#343A46" HorizontalTextAlignment="End" />
+                        <Label Grid.Row="2" Text="Date souhaitée" FontSize="11" TextColor="#818897" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Request.RequestedTime}" FontSize="11"
+                               TextColor="#343A46" HorizontalTextAlignment="End" />
+                        <Label Grid.Row="3" Text="Lieu de remise" FontSize="11" TextColor="#818897" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Request.HandoverLocation}" FontSize="11"
+                               TextColor="#343A46" HorizontalTextAlignment="End" />
+                    </Grid>
+                    <Border BackgroundColor="#EEF3FF" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="11">
+                        <Label Text="{Binding Request.Message}" FontSize="11" TextColor="#59657B" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Suivre ma demande" Command="{Binding ViewRequestsCommand}"
+                    BackgroundColor="#315CEB" TextColor="White" FontSize="13" FontAttributes="Bold"
+                    CornerRadius="12" HeightRequest="48" />
+            <Button Text="Retour à l'accueil" Command="{Binding HomeCommand}"
+                    BackgroundColor="White" TextColor="#315CEB" FontSize="13" FontAttributes="Bold"
+                    BorderColor="#E2E6EE" BorderWidth="1" CornerRadius="12" HeightRequest="48" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

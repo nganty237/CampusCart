@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             xmlns:models="clr-namespace:CampusCart.Models"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.FindServicePage"
+             x:DataType="vm:FindServiceViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="16,22,16,22" Spacing="15">
+                <Grid ColumnDefinitions="40,*" ColumnSpacing="8">
+                    <Button Text="&#xE5C4;" FontFamily="MaterialDesignIconsOutlined" FontSize="23"
+                            TextColor="#202B43" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
+                            Padding="0" Command="{Binding BackCommand}" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="Trouver un service" FontSize="20" FontAttributes="Bold" TextColor="#171B24" />
+                        <Label Text="Sur le campus ENPD" FontSize="11" TextColor="#818897" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="White" Stroke="#315CEB" StrokeThickness="1.2"
+                        StrokeShape="RoundRectangle 11" Padding="12,1">
+                    <Grid ColumnDefinitions="22,*" ColumnSpacing="7">
+                        <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Search}"
+                                          IconSize="17" IconColor="#7D8798" />
+                        <Entry Grid.Column="1" Text="{Binding SearchText}" Placeholder="Service, étudiant..."
+                               FontSize="12" TextColor="#303644" PlaceholderColor="#9299A7"
+                               ClearButtonVisibility="WhileEditing" />
+                    </Grid>
+                </Border>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Filtrer par catégorie" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                    <FlexLayout BindableLayout.ItemsSource="{Binding Categories}" Wrap="Wrap" Direction="Row"
+                                JustifyContent="Start" AlignItems="Center">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:ServiceCategoryFilter">
+                                <Button Text="{Binding Name}" Command="{Binding SelectCommand}" CommandParameter="{Binding Name}"
+                                        BackgroundColor="{Binding BackgroundColor}" TextColor="{Binding TextColor}"
+                                        BorderColor="{Binding BorderColor}" BorderWidth="1" FontSize="10"
+                                        Padding="12,0" HeightRequest="31" CornerRadius="16" Margin="0,0,6,6" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="{Binding ResultsLabel}" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                    <Button Grid.Column="1" Text="Réinitialiser" Command="{Binding ResetCommand}"
+                            BackgroundColor="Transparent" TextColor="#315CEB" FontSize="10" Padding="4,0" />
+                </Grid>
+
+                <VerticalStackLayout IsVisible="{Binding HasResults}" Spacing="10"
+                                     BindableLayout.ItemsSource="{Binding Services}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:ServiceListing">
+                            <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 14" Padding="12">
+                                <VerticalStackLayout Spacing="8">
+                                    <Border HorizontalOptions="Start" BackgroundColor="#E8EEFF" StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 12" Padding="9,4">
+                                        <Label Text="{Binding Category}" FontSize="9" TextColor="#315CEB" />
+                                    </Border>
+                                    <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" TextColor="#20232B" />
+                                    <Grid ColumnDefinitions="34,*,Auto" ColumnSpacing="8">
+                                        <Border HeightRequest="32" WidthRequest="32" BackgroundColor="{Binding ImageBackground}"
+                                                StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                                            <Label Text="{Binding ProviderInitials}" FontSize="10" FontAttributes="Bold"
+                                                   TextColor="#315CEB" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                            <Label Text="{Binding Provider}" FontSize="10" TextColor="#626D81" />
+                                            <Label Text="{Binding Location}" FontSize="9" TextColor="#9299A7" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2" Text="{Binding Price}" FontSize="11" TextColor="#E45B3C"
+                                               VerticalOptions="Center" />
+                                    </Grid>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="{Binding Rating}" FontSize="10" TextColor="#6D778A" VerticalOptions="Center" />
+                                        <Button Grid.Column="1" Text="Demander" Command="{Binding OpenCommand}"
+                                                CommandParameter="{Binding .}" BackgroundColor="#315CEB" TextColor="White"
+                                                FontSize="10" CornerRadius="9" Padding="14,0" HeightRequest="32" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Border IsVisible="{Binding HasNoResults}" BackgroundColor="White" Stroke="#E4E7ED"
+                        StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="20">
+                    <VerticalStackLayout Spacing="7">
+                        <Label Text="Aucun service trouvé" FontSize="14" FontAttributes="Bold" TextColor="#20232B" />
+                        <Label Text="Modifie ta recherche ou choisis une autre catégorie." FontSize="11" TextColor="#818897" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Les offres sont proposées par les étudiants de ton campus." FontSize="10" TextColor="#818897" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:BottomNavigationBar Grid.Row="1" SelectedTab="home" />
+    </Grid>
+</ContentPage>

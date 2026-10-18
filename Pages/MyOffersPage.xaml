@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             xmlns:models="clr-namespace:CampusCart.Models"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.MyOffersPage"
+             x:DataType="vm:MyOffersViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="18,24,18,22" Spacing="18">
+                <Grid ColumnDefinitions="40,*,Auto" ColumnSpacing="8">
+                    <Button Command="{Binding BackToProfileCommand}" BackgroundColor="White" TextColor="#202B43"
+                            HeightRequest="38" WidthRequest="38" Padding="0" CornerRadius="12"
+                            VerticalOptions="Center">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.ArrowBack}"
+                                             FontFamily="MaterialDesignIconsOutlined" Size="20" Color="#202B43" />
+                        </Button.ImageSource>
+                    </Button>
+                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                        <Label Text="Mes offres" FontSize="23" FontAttributes="Bold" TextColor="#171B24" />
+                        <Label Text="{Binding OfferCountLabel}" FontSize="12" TextColor="#818897" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="2" Text="+ Créer" Command="{Binding CreateOfferCommand}"
+                            BackgroundColor="#315CEB" TextColor="White" FontSize="11" FontAttributes="Bold"
+                            CornerRadius="10" Padding="13,0" HeightRequest="40" VerticalOptions="Center" />
+                </Grid>
+
+                <Border IsVisible="{Binding HasOffers}" BackgroundColor="#E2E9FF" StrokeThickness="0"
+                        StrokeShape="RoundRectangle 14" Padding="14">
+                    <Label Text="Tes offres publiées sont visibles par les étudiants. Tu peux les mettre en pause à tout moment."
+                           FontSize="11" TextColor="#536A9F" />
+                </Border>
+
+                <VerticalStackLayout IsVisible="{Binding HasOffers}" Spacing="12"
+                                     BindableLayout.ItemsSource="{Binding Offers}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:OfferedService">
+                            <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 15" Padding="14">
+                                <VerticalStackLayout Spacing="10">
+                                    <Grid ColumnDefinitions="*,Auto,36" ColumnSpacing="6">
+                                        <Label Text="{Binding Category}" FontSize="10" FontAttributes="Bold" TextColor="#65718A" />
+                                        <Border Grid.Column="1" BackgroundColor="#F3F5F8" StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 14" Padding="9,4">
+                                            <Label Text="{Binding Status}" FontSize="10" FontAttributes="Bold"
+                                                   TextColor="{Binding StatusColor}" />
+                                        </Border>
+                                        <Button Grid.Column="2" Text="&#xE872;" FontFamily="MaterialDesignIconsOutlined"
+                                                Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"
+                                                BackgroundColor="#FFF1F1" TextColor="#C33E4D" FontSize="18"
+                                                HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="10"
+                                                VerticalOptions="Center" HorizontalOptions="End" />
+                                    </Grid>
+                                    <Label Text="{Binding Title}" FontSize="15" FontAttributes="Bold" TextColor="#20232B" />
+                                    <Label Text="{Binding Description}" FontSize="11" TextColor="#70798A"
+                                           MaxLines="3" LineBreakMode="TailTruncation" />
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                        <VerticalStackLayout Spacing="3">
+                                            <Label Text="{Binding Price}" FontSize="13" FontAttributes="Bold" TextColor="#315CEB" />
+                                            <Label Text="{Binding Availability}" FontSize="10" TextColor="#818897"
+                                                   LineBreakMode="TailTruncation" />
+                                        </VerticalStackLayout>
+                                        <Button Grid.Column="1" Text="{Binding ActionLabel}" Command="{Binding ToggleCommand}"
+                                                CommandParameter="{Binding .}" BackgroundColor="#F2F5FF" TextColor="#315CEB"
+                                                FontSize="10" FontAttributes="Bold" CornerRadius="9" Padding="11,0"
+                                                HeightRequest="36" VerticalOptions="Center" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Border IsVisible="{Binding HasNoOffers}"
+                        BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16" Padding="22">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="Aucune offre pour le moment" FontSize="15" FontAttributes="Bold"
+                               TextColor="#20232B" HorizontalTextAlignment="Center" />
+                        <Label Text="Publie un service pour partager tes compétences avec les étudiants du campus."
+                               FontSize="11" TextColor="#818897" HorizontalTextAlignment="Center" />
+                        <Button Text="Créer ma première offre" Command="{Binding CreateOfferCommand}"
+                                BackgroundColor="#315CEB" TextColor="White" FontSize="11" FontAttributes="Bold"
+                                CornerRadius="10" HeightRequest="42" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:BottomNavigationBar Grid.Row="1" SelectedTab="profile" />
+    </Grid>
+</ContentPage>

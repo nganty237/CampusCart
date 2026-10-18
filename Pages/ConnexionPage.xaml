@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.ConnexionPage"
+             x:DataType="vm:AuthViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FA">
+    <ScrollView MaximumWidthRequest="480" HorizontalOptions="Center">
+        <Grid Padding="26,22,26,18" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*,Auto,Auto" RowSpacing="0">
+            <Grid ColumnDefinitions="34,*" ColumnSpacing="8">
+                <Button Text="{x:Static icons:MaterialDesignIconsOutlinedRegular.ArrowBack}"
+                        FontFamily="MaterialDesignIconsOutlined" FontSize="23"
+                        Command="{Binding OpenLandingCommand}"
+                        SemanticProperties.Description="Retour à l’accueil"
+                        BackgroundColor="Transparent" TextColor="#17223A"
+                        Padding="0" HeightRequest="38" WidthRequest="30" />
+                <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                    <Label Text="Connexion" FontSize="21" FontAttributes="Bold" TextColor="#151820" />
+                    <Label Text="Heureux de te retrouver sur CampusCart." FontSize="11" TextColor="#858B98" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <Border Grid.Row="1" Margin="0,20,0,14" HeightRequest="126" BackgroundColor="#E3EAFE"
+                    StrokeThickness="0" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="9" VerticalOptions="Center" HorizontalOptions="Center">
+                    <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.School}"
+                                      IconSize="38" IconColor="#315CEB" />
+                    <Label Text="Ta communaut&#x00E9; t'attend." FontSize="10" TextColor="#315CEB" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Grid.Row="2" Text="Bienvenue sur CampusCart" FontSize="15" FontAttributes="Bold" TextColor="#315CEB" Margin="0,0,0,13" />
+
+            <VerticalStackLayout Grid.Row="3" Spacing="6">
+                <Label Text="E-mail universitaire" FontSize="12" TextColor="#292D36" />
+                <Entry Text="{Binding Email}" Placeholder="nom.prenom@etudiant.universite.cm" Keyboard="Email"
+                       BackgroundColor="White" TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="48"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding EmailError}" FontSize="10" TextColor="#E5484D" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="4" Spacing="6" Margin="0,10,0,0">
+                <Label Text="Mot de passe" FontSize="12" TextColor="#292D36" />
+                <Entry Text="{Binding Password}" Placeholder="Ton mot de passe" IsPassword="True"
+                       BackgroundColor="White" TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="48" />
+                <Label Text="{Binding PasswordError}" FontSize="10" TextColor="#E5484D" />
+            </VerticalStackLayout>
+
+            <Button Grid.Row="5" Text="Mot de passe oubli&#x00E9; ?" Command="{Binding ForgotPasswordCommand}"
+                    BackgroundColor="Transparent" TextColor="#315CEB" FontSize="12" Padding="0"
+                    HorizontalOptions="Start" HeightRequest="38" />
+            <Label Grid.Row="6" Text="Utilise ton adresse universitaire pour retrouver tes demandes et tes conversations."
+                   FontSize="11" TextColor="#858B98" LineBreakMode="WordWrap" Margin="0,0,0,18" />
+
+            <VerticalStackLayout Grid.Row="9" Spacing="8" VerticalOptions="End">
+                <Button Text="Se connecter" Command="{Binding SignInCommand}" BackgroundColor="#315CEB"
+                        TextColor="White" FontSize="13" FontAttributes="Bold" CornerRadius="10" HeightRequest="48" />
+                <Button Text="Cr&#x00E9;er un compte" Command="{Binding OpenRegistrationCommand}" BackgroundColor="White"
+                        TextColor="#242833" FontSize="13" CornerRadius="10" HeightRequest="48"
+                        BorderColor="#E1E4EA" BorderWidth="1" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

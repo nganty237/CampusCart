@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:CampusCart.Models"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             x:Class="CampusCart.Pages.MainPage"
+             x:DataType="vm:HomeViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="20,18,20,26" Spacing="22">
+
+                <!-- En-tête personnalisé -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="14" VerticalOptions="Center">
+                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                        <Label Text="Bonjour, Gabriel" FontSize="22" FontAttributes="Bold" TextColor="#17223A" />
+                        <HorizontalStackLayout Spacing="5">
+                            <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.LocationOn}"
+                                              IconSize="14" IconColor="#788397" WidthRequest="16" HeightRequest="16" />
+                            <Label Text="Campus ENPD · Douala" FontSize="11" TextColor="#788397" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                    <Grid Grid.Column="1" ColumnDefinitions="42,42" ColumnSpacing="9" VerticalOptions="Center">
+                        <Border HeightRequest="42" WidthRequest="42" Stroke="#E5E9F1" StrokeThickness="1"
+                                StrokeShape="RoundRectangle 21" BackgroundColor="#FFFFFF">
+                            <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.NotificationsNone}"
+                                              IconSize="21" IconColor="#34415B" />
+                        </Border>
+                        <Border Grid.Column="1" HeightRequest="42" WidthRequest="42" StrokeThickness="0"
+                                StrokeShape="RoundRectangle 21" BackgroundColor="#DCE6FF">
+                            <Label Text="NG" FontSize="11" FontAttributes="Bold" TextColor="#315CEB"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <!-- Recherche -->
+                <Border BackgroundColor="#FFFFFF" Stroke="#E2E6EE" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 15" Padding="14,3" HeightRequest="54">
+                    <Grid ColumnDefinitions="22,*" ColumnSpacing="10">
+                        <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Search}"
+                                          IconSize="21" IconColor="#7C879B" WidthRequest="22" HeightRequest="22" />
+                        <Entry Grid.Column="1" Text="{Binding SearchText}"
+                               Placeholder="Que recherches-tu ? (ex. impression)"
+                               FontSize="13" TextColor="#17223A" PlaceholderColor="#8A94A7"
+                               ClearButtonVisibility="WhileEditing" />
+                    </Grid>
+                </Border>
+
+                <!-- Invitation à proposer un service -->
+                <Border BackgroundColor="#315CEB" StrokeThickness="0"
+                        StrokeShape="RoundRectangle 18" Padding="18,17">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="7" VerticalOptions="Center">
+                            <Label Text="LA VIE DE CAMPUS, EN PLUS SIMPLE" FontSize="9" FontAttributes="Bold"
+                                   CharacterSpacing="0.6" TextColor="#D6E2FF" />
+                            <Label Text="Un talent à partager ?" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="Propose ton service aux étudiants près de toi."
+                                   FontSize="11" LineBreakMode="WordWrap" TextColor="#E6ECFF" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Proposer" Command="{Binding PublishCommand}"
+                                FontSize="11" FontAttributes="Bold" TextColor="#244FCF" BackgroundColor="White"
+                                CornerRadius="11" Padding="13,0" HeightRequest="40" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Catégories -->
+                <VerticalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Explorer" FontSize="18" FontAttributes="Bold" TextColor="#17223A" />
+                            <Label Text="Trouve le coup de main qu’il te faut" FontSize="11" TextColor="#788397" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="Catégories" FontSize="11" FontAttributes="Bold"
+                               TextColor="#315CEB" VerticalOptions="Center" />
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding Categories}" ItemsLayout="HorizontalList"
+                                    SelectionMode="None" HeightRequest="108" HorizontalScrollBarVisibility="Never">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ServiceCategory">
+                                <Border WidthRequest="102" Margin="0,0,10,0" BackgroundColor="White"
+                                        Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="12">
+                                    <VerticalStackLayout Spacing="8" VerticalOptions="Center">
+                                        <Border HeightRequest="38" WidthRequest="38" BackgroundColor="{Binding BackgroundColor}"
+                                                StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                            <controls:AppIcon Glyph="{Binding IconGlyph}" IconSize="21" />
+                                        </Border>
+                                        <Label Text="{Binding Name}" FontSize="10" FontAttributes="Bold"
+                                               TextColor="#27334B" LineBreakMode="TailTruncation" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- Offres récentes -->
+                <VerticalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Disponibles sur le campus" FontSize="18" FontAttributes="Bold" TextColor="#17223A" />
+                            <Label Text="Des étudiants prêts à te donner un coup de main" FontSize="11" TextColor="#788397" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Voir tout  →" Command="{Binding BrowseServicesCommand}"
+                                FontSize="11" FontAttributes="Bold" TextColor="#315CEB"
+                                BackgroundColor="Transparent" Padding="4,0" VerticalOptions="Center" />
+                    </Grid>
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Services}" Spacing="10">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:ServiceListing">
+                                <Border BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 16" Padding="12">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding OpenCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="58,*,Auto" ColumnSpacing="10" RowDefinitions="Auto,Auto">
+                                        <Border BackgroundColor="{Binding ImageBackground}" HeightRequest="58" WidthRequest="58"
+                                                StrokeThickness="0" StrokeShape="RoundRectangle 14" VerticalOptions="Start">
+                                            <controls:AppIcon Glyph="{Binding IconGlyph}" IconSize="29" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label Text="{Binding Title}" FontSize="13" FontAttributes="Bold"
+                                                   TextColor="#1B2740" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Provider}" FontSize="10" TextColor="#788397"
+                                                   LineBreakMode="TailTruncation" />
+                                            <HorizontalStackLayout Spacing="4">
+                                                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.LocationOn}"
+                                                                  IconSize="13" IconColor="#788397" WidthRequest="14" HeightRequest="14" />
+                                                <Label Text="{Binding Location}" FontSize="10" TextColor="#788397" />
+                                                <Label Text="·" FontSize="10" TextColor="#A2AABC" />
+                                                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Star}"
+                                                                  IconSize="13" IconColor="#E6A72E" WidthRequest="14" HeightRequest="14" />
+                                                <Label Text="{Binding Rating}" FontSize="10" FontAttributes="Bold" TextColor="#46536A" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                        <Button Grid.Column="2" Text="{Binding FavoriteGlyph}"
+                                                FontFamily="MaterialDesignIconsOutlined" FontSize="18" TextColor="#315CEB"
+                                                BackgroundColor="#F4F6FA" HeightRequest="36" WidthRequest="36"
+                                                Padding="0" CornerRadius="18" VerticalOptions="Center"
+                                                Command="{Binding FavoriteCommand}" CommandParameter="{Binding .}" />
+                                        <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ColumnDefinitions="*,Auto" ColumnSpacing="8" Margin="0,8,0,0">
+                                            <Label Text="{Binding Category}" FontSize="9" FontAttributes="Bold"
+                                                   TextColor="#7C879B" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                                            <Grid Grid.Column="1" ColumnDefinitions="Auto,*" ColumnSpacing="7" VerticalOptions="Center">
+                                                <Label Text="{Binding Price}" FontSize="12" FontAttributes="Bold"
+                                                       TextColor="#315CEB" VerticalOptions="Center" />
+                                                <Button Grid.Column="1" Text="Voir l'offre" Command="{Binding OpenCommand}" CommandParameter="{Binding .}"
+                                                        FontSize="9" TextColor="White" BackgroundColor="#315CEB"
+                                                        HeightRequest="34" Padding="12,0" CornerRadius="9"
+                                                        HorizontalOptions="Fill" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Navigation principale -->
+        <controls:BottomNavigationBar Grid.Row="1" SelectedTab="home" />
+    </Grid>
+</ContentPage>

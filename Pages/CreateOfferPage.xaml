@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.CreateOfferPage"
+             x:DataType="vm:CreateOfferViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout MaximumWidthRequest="480" HorizontalOptions="Center"
+                                 Padding="18,14,18,20" Spacing="14">
+                <Grid ColumnDefinitions="24,*" ColumnSpacing="2" HeightRequest="40">
+                    <Button Text="&#xE5C4;" FontFamily="MaterialDesignIconsOutlined" FontSize="23"
+                            TextColor="#202B43" BackgroundColor="Transparent" WidthRequest="24" HeightRequest="36"
+                            Padding="0" Command="{Binding ExitCommand}" VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="Créer une offre" FontSize="20" FontAttributes="Bold" TextColor="#171B24"
+                               HorizontalTextAlignment="Start" />
+                        <Label Text="{Binding StepCaption}" FontSize="11" TextColor="#818897"
+                               HorizontalTextAlignment="Start" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="6" HeightRequest="4">
+                    <BoxView Color="{Binding StepOneColor}" CornerRadius="2" />
+                    <BoxView Grid.Column="1" Color="{Binding StepTwoColor}" CornerRadius="2" />
+                    <BoxView Grid.Column="2" Color="{Binding StepThreeColor}" CornerRadius="2" />
+                </Grid>
+
+                <VerticalStackLayout IsVisible="{Binding IsStepOne}" Spacing="15">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Quel service proposes-tu ?" FontSize="16" FontAttributes="Bold" TextColor="#20232B" />
+                        <Label Text="Un titre clair aide les étudiants à trouver ton offre." FontSize="11" TextColor="#818897" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Titre de l'offre" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                        <Border BackgroundColor="White" Stroke="#315CEB" StrokeThickness="1.4" StrokeShape="RoundRectangle 11" Padding="11,1">
+                            <Entry Text="{Binding Draft.Title}" Placeholder="Ex. Relecture de rapports"
+                                   MaxLength="60" FontSize="13" TextColor="#343A46" PlaceholderColor="#9299A7" />
+                        </Border>
+                        <Label Text="{Binding TitleCountLabel}" FontSize="10" TextColor="#818897" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Catégorie" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                        <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1" StrokeShape="RoundRectangle 11" Padding="11,12">
+                            <Label Text="{Binding Draft.Category}" FontSize="12" TextColor="#667187" />
+                        </Border>
+                        <FlexLayout Margin="0,6,0,0" Wrap="Wrap" Direction="Row" JustifyContent="Start" AlignItems="Start">
+                            <Button Text="Impression" Command="{Binding ChooseCategoryCommand}" CommandParameter="Impression"
+                                    BackgroundColor="White" TextColor="#6D778A" BorderColor="#E1E5EC" BorderWidth="1"
+                                    FontSize="10" Padding="12,0" HeightRequest="32" CornerRadius="16" Margin="0,0,6,6">
+                                <Button.Triggers><DataTrigger TargetType="Button" Binding="{Binding Draft.Category}" Value="Impression"><Setter Property="BackgroundColor" Value="#315CEB" /><Setter Property="TextColor" Value="White" /></DataTrigger></Button.Triggers>
+                            </Button>
+                            <Button Text="Cours" Command="{Binding ChooseCategoryCommand}" CommandParameter="Cours"
+                                    BackgroundColor="White" TextColor="#6D778A" BorderColor="#E1E5EC" BorderWidth="1"
+                                    FontSize="10" Padding="12,0" HeightRequest="32" CornerRadius="16" Margin="0,0,6,6">
+                                <Button.Triggers><DataTrigger TargetType="Button" Binding="{Binding Draft.Category}" Value="Cours"><Setter Property="BackgroundColor" Value="#315CEB" /><Setter Property="TextColor" Value="White" /></DataTrigger></Button.Triggers>
+                            </Button>
+                            <Button Text="Dépannage" Command="{Binding ChooseCategoryCommand}" CommandParameter="Dépannage"
+                                    BackgroundColor="White" TextColor="#6D778A" BorderColor="#E1E5EC" BorderWidth="1"
+                                    FontSize="10" Padding="12,0" HeightRequest="32" CornerRadius="16" Margin="0,0,6,6">
+                                <Button.Triggers><DataTrigger TargetType="Button" Binding="{Binding Draft.Category}" Value="Dépannage"><Setter Property="BackgroundColor" Value="#315CEB" /><Setter Property="TextColor" Value="White" /></DataTrigger></Button.Triggers>
+                            </Button>
+                            <Button Text="Livraison" Command="{Binding ChooseCategoryCommand}" CommandParameter="Livraison"
+                                    BackgroundColor="White" TextColor="#6D778A" BorderColor="#E1E5EC" BorderWidth="1"
+                                    FontSize="10" Padding="12,0" HeightRequest="32" CornerRadius="16" Margin="0,0,6,6">
+                                <Button.Triggers><DataTrigger TargetType="Button" Binding="{Binding Draft.Category}" Value="Livraison"><Setter Property="BackgroundColor" Value="#315CEB" /><Setter Property="TextColor" Value="White" /></DataTrigger></Button.Triggers>
+                            </Button>
+                            <Button Text="Autre" Command="{Binding ChooseCategoryCommand}" CommandParameter="Autre"
+                                    BackgroundColor="White" TextColor="#6D778A" BorderColor="#E1E5EC" BorderWidth="1"
+                                    FontSize="10" Padding="12,0" HeightRequest="32" CornerRadius="16" Margin="0,0,6,6">
+                                <Button.Triggers><DataTrigger TargetType="Button" Binding="{Binding Draft.Category}" Value="Autre"><Setter Property="BackgroundColor" Value="#315CEB" /><Setter Property="TextColor" Value="White" /></DataTrigger></Button.Triggers>
+                            </Button>
+                        </FlexLayout>
+                    </VerticalStackLayout>
+                    <Border BackgroundColor="#E2E9FF" StrokeThickness="0" StrokeShape="RoundRectangle 13" Padding="13">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Un talent utile au campus" FontSize="12" FontAttributes="Bold" TextColor="#315CEB" />
+                            <Label Text="Décris une compétence, un service ou un coup de main que tu peux vraiment partager." FontSize="10" TextColor="#536A9F" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout IsVisible="{Binding IsStepTwo}" Spacing="15">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Fixe un tarif étudiant." FontSize="16" FontAttributes="Bold" TextColor="#20232B" />
+                        <Label Text="Indique ce qui est inclus. Pas de mauvaise surprise pour tes camarades." FontSize="11" TextColor="#818897" />
+                    </VerticalStackLayout>
+                    <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1" StrokeShape="RoundRectangle 13" Padding="13">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{Binding Draft.Title}" FontSize="13" FontAttributes="Bold" TextColor="#303644" />
+                            <Border HorizontalOptions="Start" BackgroundColor="#F3F5F8" Stroke="#E6E9EE" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="10,4">
+                                <Label Text="{Binding Draft.Category}" FontSize="10" TextColor="#70798A" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Tarif en FCFA" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                        <Border BackgroundColor="White" Stroke="#315CEB" StrokeThickness="1.4" StrokeShape="RoundRectangle 11" Padding="11,1">
+                            <Entry Text="{Binding Draft.Price}" Placeholder="Ex. 1 000" Keyboard="Numeric"
+                                   FontSize="13" TextColor="#343A46" PlaceholderColor="#9299A7" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Unité du service" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                        <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1" StrokeShape="RoundRectangle 11" Padding="11,1">
+                            <Entry Text="{Binding Draft.Unit}" Placeholder="Par rapport, jusqu'à 10 pages"
+                                   FontSize="12" TextColor="#343A46" PlaceholderColor="#9299A7" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <Border BackgroundColor="#E2E9FF" StrokeThickness="0" StrokeShape="RoundRectangle 13" Padding="13">
+                        <VerticalStackLayout Spacing="7">
+                            <Label Text="Ton offre en un coup d'œil" FontSize="12" FontAttributes="Bold" TextColor="#315CEB" />
+                            <Label Text="{Binding PricePreview}" FontSize="12" TextColor="#536A9F" />
+                            <Label Text="Le règlement se fait directement entre étudiants." FontSize="10" TextColor="#536A9F" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout IsVisible="{Binding IsStepThree}" Spacing="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Donne envie de te contacter." FontSize="16" FontAttributes="Bold" TextColor="#20232B" />
+                        <Label Text="Quelques détails aident les étudiants à savoir si ton offre leur convient." FontSize="11" TextColor="#818897" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Description" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                        <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1" StrokeShape="RoundRectangle 11" Padding="10,5">
+                            <Editor Text="{Binding Draft.Description}" Placeholder="Décris ce qui est inclus, ton expérience et le délai..."
+                                    AutoSize="TextChanges" MinimumHeightRequest="112" FontSize="12"
+                                    TextColor="#343A46" PlaceholderColor="#9299A7" />
+                        </Border>
+                        <Label Text="Précise le contenu du service et le délai." FontSize="10" TextColor="#818897" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Lieu et disponibilité" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                        <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1" StrokeShape="RoundRectangle 11" Padding="11,1">
+                            <Entry Text="{Binding Draft.Availability}" Placeholder="Ex. Campus ENPD · En semaine après 16 h"
+                                   FontSize="12" TextColor="#343A46" PlaceholderColor="#9299A7" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="13">
+                        <VerticalStackLayout Spacing="7">
+                            <Label Text="APERÇU AVANT PUBLICATION" FontSize="9" FontAttributes="Bold" TextColor="#315CEB" />
+                            <Label Text="{Binding Draft.Title}" FontSize="14" FontAttributes="Bold" TextColor="#252A33" />
+                            <Label Text="{Binding PricePreview}" FontSize="12" TextColor="#E45B3C" />
+                            <Label Text="{Binding Draft.Description}" FontSize="10" TextColor="#727C8E" MaxLines="3" LineBreakMode="TailTruncation" />
+                            <Label Text="{Binding Draft.Availability}" FontSize="10" TextColor="#727C8E" />
+                            <BoxView HeightRequest="1" Color="#EEF0F4" Margin="0,3" />
+                            <Grid ColumnDefinitions="38,*" ColumnSpacing="9">
+                                <Border HeightRequest="36" WidthRequest="36" BackgroundColor="#DCE6FF"
+                                        StrokeThickness="0" StrokeShape="RoundRectangle 18">
+                                    <Label Text="{Binding PublisherInitials}" FontSize="11" FontAttributes="Bold"
+                                           TextColor="#315CEB" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding PublisherName}" FontSize="10" FontAttributes="Bold" TextColor="#343A46" />
+                                    <Label Text="{Binding PublisherRole}" FontSize="9" TextColor="#818897" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Label Text="{Binding Draft.Category}" FontSize="9" TextColor="#818897" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="Ton offre sera visible aux étudiants de ton campus." FontSize="10" TextColor="#818897" />
+                </VerticalStackLayout>
+
+                <Label Text="{Binding ValidationMessage}" FontSize="11" TextColor="#D94B54" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#E6E9EF" StrokeThickness="1" Padding="18,10">
+            <VerticalStackLayout MaximumWidthRequest="444" HorizontalOptions="Fill" Spacing="6">
+                <Button Text="{Binding PrimaryActionLabel}" Command="{Binding ContinueCommand}"
+                        BackgroundColor="#315CEB" TextColor="White" FontSize="13" FontAttributes="Bold"
+                        CornerRadius="11" HeightRequest="46" HorizontalOptions="Fill" />
+                <Label IsVisible="{Binding IsStepOne}" Text="Brouillon conservé automatiquement pendant ta session."
+                       FontSize="9" TextColor="#818897" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

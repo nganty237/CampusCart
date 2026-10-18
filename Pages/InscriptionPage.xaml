@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.InscriptionPage"
+             x:DataType="vm:AuthViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FA">
+    <ScrollView MaximumWidthRequest="480" HorizontalOptions="Center">
+        <Grid Padding="26,22,26,18" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="0">
+            <Grid ColumnDefinitions="34,*" ColumnSpacing="8">
+                <Button Text="{x:Static icons:MaterialDesignIconsOutlinedRegular.ArrowBack}"
+                        FontFamily="MaterialDesignIconsOutlined"
+                        Command="{Binding OpenSignInCommand}" BackgroundColor="Transparent"
+                        TextColor="#171A21" FontSize="23" Padding="0" HeightRequest="38" WidthRequest="30" />
+                <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                    <Label Text="Rejoins ton campus" FontSize="21" FontAttributes="Bold" TextColor="#151820" />
+                    <Label Text="Un compte &#x00E9;tudiant, des services tout pr&#x00E8;s." FontSize="11" TextColor="#858B98" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout Grid.Row="1" Spacing="5" Margin="0,19,0,0">
+                <Label Text="Nom complet" FontSize="12" TextColor="#292D36" />
+                <Entry Text="{Binding FullName}" Placeholder="Ex. : Nganty Gabriel" BackgroundColor="White"
+                       TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="46" />
+                <Label Text="{Binding NameError}" FontSize="10" TextColor="#E5484D" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="2" Spacing="5" Margin="0,10,0,0">
+                <Label Text="E-mail universitaire" FontSize="12" TextColor="#292D36" />
+                <Entry Text="{Binding Email}" Placeholder="nom.prenom@etudiant.universite.cm" Keyboard="Email"
+                       BackgroundColor="White" TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="46" />
+                <Label Text="Un lien de v&#x00E9;rification sera envoy&#x00E9; &#x00E0; cette adresse." FontSize="10" TextColor="#858B98" />
+                <Label Text="{Binding EmailError}" FontSize="10" TextColor="#E5484D" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="3" Spacing="5" Margin="0,10,0,0">
+                <Label Text="Campus" FontSize="12" TextColor="#292D36" />
+                <Entry Text="&#x00C9;cole Nationale Sup&#x00E9;rieure Polytechnique de Douala" IsReadOnly="True"
+                       BackgroundColor="White" TextColor="#858B98" FontSize="12" HeightRequest="46" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="4" Spacing="5" Margin="0,10,0,0">
+                <Label Text="Mot de passe" FontSize="12" TextColor="#292D36" />
+                <Entry Text="{Binding Password}" Placeholder="8 caract&#x00E8;res minimum" IsPassword="True"
+                       BackgroundColor="White" TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="46" />
+                <Label Text="Au moins 8 caract&#x00E8;res, dont un chiffre." FontSize="10" TextColor="#858B98" />
+                <Label Text="{Binding PasswordError}" FontSize="10" TextColor="#E5484D" />
+            </VerticalStackLayout>
+
+            <Border Grid.Row="5" Margin="0,14,0,0" Padding="12" BackgroundColor="#E3EAFE"
+                    StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                <Label Text="Une communaut&#x00E9; r&#x00E9;serv&#x00E9;e aux &#x00E9;tudiants. Ton adresse universitaire aide &#x00E0; garder le campus en confiance."
+                       FontSize="10" TextColor="#315CEB" LineBreakMode="WordWrap" />
+            </Border>
+            <Label Grid.Row="6" Text="En cr&#x00E9;ant ton compte, tu acceptes les conditions d'utilisation et la politique de confidentialit&#x00E9;."
+                   FontSize="10" TextColor="#858B98" LineBreakMode="WordWrap" Margin="0,12,0,12" />
+
+            <VerticalStackLayout Grid.Row="9" Spacing="5" VerticalOptions="End">
+                <Button Text="Cr&#x00E9;er mon compte" Command="{Binding RegisterCommand}" BackgroundColor="#315CEB"
+                        TextColor="White" FontSize="13" FontAttributes="Bold" CornerRadius="10" HeightRequest="48" />
+                <Button Text="D&#x00E9;j&#x00E0; inscrit ? Se connecter" Command="{Binding OpenSignInCommand}"
+                        BackgroundColor="Transparent" TextColor="#315CEB" FontSize="11" HeightRequest="34" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

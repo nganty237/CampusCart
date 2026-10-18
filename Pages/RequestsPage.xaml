@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             xmlns:models="clr-namespace:CampusCart.Models"
+             x:Class="CampusCart.Pages.RequestsPage"
+             x:DataType="vm:RequestsViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="16,24,16,22" Spacing="18">
+                <Grid ColumnDefinitions="*,48" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                        <Label Text="Mes demandes" FontSize="23" FontAttributes="Bold" TextColor="#171B24" />
+                        <Label Text="Retrouve tous tes services en cours." FontSize="12" TextColor="#818897" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1" HeightRequest="44" WidthRequest="44" BackgroundColor="#DCE6FF"
+                            StrokeThickness="0" StrokeShape="RoundRectangle 22">
+                        <Label Text="NG" FontSize="15" FontAttributes="Bold" TextColor="#315CEB"
+                               HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+
+                <HorizontalStackLayout Spacing="8">
+                    <Button Text="{Binding SentTabLabel}" Command="{Binding ShowSentCommand}"
+                            BackgroundColor="{Binding SentTabBackground}" TextColor="{Binding SentTabTextColor}"
+                            FontSize="12" Padding="14,7" CornerRadius="18" HeightRequest="36" />
+                    <Button Text="{Binding ReceivedTabLabel}" Command="{Binding ShowReceivedCommand}"
+                            BackgroundColor="{Binding ReceivedTabBackground}" TextColor="{Binding ReceivedTabTextColor}"
+                            FontSize="12" Padding="14,7" CornerRadius="18" HeightRequest="36"
+                            BorderColor="#E4E7ED" BorderWidth="1" />
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout Spacing="12"
+                                     BindableLayout.ItemsSource="{Binding Requests}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:ServiceRequest">
+                            <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 15" Padding="13">
+                                <VerticalStackLayout Spacing="10">
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                        <Label Text="{Binding Schedule}" FontSize="11" TextColor="#818897"
+                                               VerticalOptions="Center" />
+                                        <Border Grid.Column="1" Padding="10,5" BackgroundColor="White"
+                                                Stroke="{Binding StatusColor}" StrokeThickness="1"
+                                                StrokeShape="RoundRectangle 16">
+                                            <Label Text="{Binding Status}" FontSize="11" TextColor="{Binding StatusColor}"
+                                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                    </Grid>
+                                    <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" TextColor="#20232B" />
+                                    <Grid ColumnDefinitions="44,*" ColumnSpacing="10">
+                                        <Border HeightRequest="44" WidthRequest="44" BackgroundColor="{Binding AvatarColor}"
+                                                StrokeThickness="0" StrokeShape="RoundRectangle 22">
+                                            <Label Text="{Binding ContactInitials}" FontSize="14" FontAttributes="Bold"
+                                                   TextColor="#315CEB" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                            <Label Text="{Binding ContactName}" FontSize="12" FontAttributes="Bold" TextColor="#292D36" />
+                                            <Label Text="{Binding ContactDetail}" FontSize="11" TextColor="#818897"
+                                                   LineBreakMode="TailTruncation" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Label Text="Un service terminé ? Laisse un avis depuis sa demande."
+                       FontSize="11" TextColor="#818897" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:BottomNavigationBar Grid.Row="1" SelectedTab="requests" />
+    </Grid>
+</ContentPage>

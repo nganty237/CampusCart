@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             xmlns:models="clr-namespace:CampusCart.Models"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             x:Class="CampusCart.Pages.ChatPage"
+             x:DataType="vm:ChatViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Fill"
+              ColumnDefinitions="30,*" ColumnSpacing="6" Padding="10,12,16,10">
+            <Button Text="{x:Static icons:MaterialDesignIconsOutlinedRegular.ArrowBack}"
+                    FontFamily="MaterialDesignIconsOutlined" FontSize="20"
+                    TextColor="#202B43" BackgroundColor="Transparent" WidthRequest="30"
+                    HeightRequest="34" Padding="0" Command="{Binding GoBackCommand}" />
+            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                <Label Text="{Binding ContactName}" FontSize="16" FontAttributes="Bold" TextColor="#171B24"
+                       LineBreakMode="TailTruncation" />
+                <Label Text="{Binding ServiceTitle}" FontSize="10" TextColor="#818897"
+                       LineBreakMode="TailTruncation" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <ScrollView Grid.Row="1" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="10,4,10,16" Spacing="12">
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 13" Padding="11">
+                    <VerticalStackLayout Spacing="7">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                            <Label Text="{Binding RequestSummary}" FontSize="11" FontAttributes="Bold"
+                                   TextColor="#343A46" VerticalOptions="Center" />
+                            <Border Grid.Column="1" BackgroundColor="White" Stroke="#34C77B" StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 14" Padding="9,4">
+                                <Label Text="{Binding RequestStatus}" FontSize="10" TextColor="#24A96B"
+                                       HorizontalOptions="Center" />
+                            </Border>
+                        </Grid>
+                        <Label Text="{Binding RequestScheduleAndLocation}" FontSize="10" TextColor="#818897" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Aujourd'hui · 11:20" FontSize="9" TextColor="#818897"
+                       HorizontalTextAlignment="Center" Margin="0,0,0,1" />
+
+                <VerticalStackLayout Spacing="9" BindableLayout.ItemsSource="{Binding Messages}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:ChatMessage">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <Border Grid.Column="0" IsVisible="{Binding IsIncoming}"
+                                        BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 11" Padding="10,8"
+                                        HorizontalOptions="Start" MaximumWidthRequest="320">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="{Binding Text}" FontSize="10" TextColor="#343A46" />
+                                        <Label Text="{Binding AttachmentName}" FontSize="10" TextColor="#315CEB"
+                                               IsVisible="{Binding HasAttachment}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                                <Border Grid.Column="1" IsVisible="{Binding IsOutgoing}"
+                                        BackgroundColor="#315CEB" StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 11" Padding="10,8"
+                                        HorizontalOptions="End" MaximumWidthRequest="320">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="{Binding Text}" FontSize="10" TextColor="White" />
+                                        <Label Text="{Binding AttachmentName}" FontSize="10" TextColor="#E2E9FF"
+                                               IsVisible="{Binding HasAttachment}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+                <Label Text="Lu à 11:24" FontSize="9" TextColor="#818897" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="2" BackgroundColor="White" Stroke="#E6E9EF" StrokeThickness="1" Padding="8,8">
+            <Grid MaximumWidthRequest="460" HorizontalOptions="Fill" ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10" Padding="9,0">
+                    <Entry Placeholder="Ton message..." Text="{Binding DraftMessage}"
+                           FontSize="11" TextColor="#343A46" PlaceholderColor="#9299A7"
+                           ReturnType="Send" />
+                </Border>
+                <Button Grid.Column="1" Text="Envoyer" Command="{Binding SendCommand}"
+                        BackgroundColor="#315CEB" TextColor="White" FontSize="10" FontAttributes="Bold"
+                        CornerRadius="9" HeightRequest="38" Padding="12,0" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

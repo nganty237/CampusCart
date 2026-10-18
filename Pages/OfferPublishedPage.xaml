@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             x:Class="CampusCart.Pages.OfferPublishedPage"
+             x:DataType="vm:OfferPublishedViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout MaximumWidthRequest="440" HorizontalOptions="Center"
+                             Padding="22,36,22,28" Spacing="18">
+            <Border HeightRequest="88" WidthRequest="88" BackgroundColor="#E8F7EF"
+                    StrokeThickness="0" StrokeShape="RoundRectangle 44" HorizontalOptions="Center">
+                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Check}"
+                                  IconSize="42" IconColor="#279B68" />
+            </Border>
+            <VerticalStackLayout Spacing="7">
+                <Label Text="Ton offre est publiée !" FontSize="23" FontAttributes="Bold" TextColor="#182238"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Les étudiants de ton campus peuvent maintenant la découvrir et t'envoyer une demande."
+                       FontSize="13" TextColor="#778195" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+            <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16" Padding="15">
+                <VerticalStackLayout Spacing="9">
+                    <Label Text="{Binding Offer.Category}" FontSize="10" FontAttributes="Bold" TextColor="#315CEB" />
+                    <Label Text="{Binding Offer.Title}" FontSize="17" FontAttributes="Bold" TextColor="#20232B" />
+                    <Label Text="{Binding Offer.Price}" FontSize="13" FontAttributes="Bold" TextColor="#E45B3C" />
+                    <Label Text="{Binding Offer.Availability}" FontSize="11" TextColor="#818897" />
+                </VerticalStackLayout>
+            </Border>
+            <Button Text="Gérer mes offres" Command="{Binding ManageOffersCommand}"
+                    BackgroundColor="#315CEB" TextColor="White" FontSize="13" FontAttributes="Bold"
+                    CornerRadius="12" HeightRequest="48" />
+            <Button Text="Retour à l'accueil" Command="{Binding HomeCommand}"
+                    BackgroundColor="White" TextColor="#315CEB" FontSize="13" FontAttributes="Bold"
+                    BorderColor="#E2E6EE" BorderWidth="1" CornerRadius="12" HeightRequest="48" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

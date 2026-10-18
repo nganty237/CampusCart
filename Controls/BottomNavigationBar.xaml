@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Controls.BottomNavigationBar"
+             x:DataType="vm:BottomNavigationViewModel"
+             MaximumWidthRequest="480"
+             HorizontalOptions="Fill">
+    <Border BackgroundColor="White" Stroke="#E7EAF0" StrokeThickness="1" Padding="4,7,4,8">
+        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="0">
+            <VerticalStackLayout Spacing="3" HorizontalOptions="Fill" VerticalOptions="Center">
+                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Home}"
+                                  IconSize="21" IconColor="{Binding HomeColor}" WidthRequest="24" HeightRequest="24" />
+                <Label Text="Accueil" FontSize="10" TextColor="{Binding HomeColor}"
+                       FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="home" />
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Spacing="3" HorizontalOptions="Fill" VerticalOptions="Center">
+                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Assignment}"
+                                  IconSize="21" IconColor="{Binding RequestsColor}" WidthRequest="24" HeightRequest="24" />
+                <Label Text="Demandes" FontSize="10" TextColor="{Binding RequestsColor}"
+                       HorizontalTextAlignment="Center" />
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="requests" />
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="2" Spacing="3" HorizontalOptions="Fill" VerticalOptions="Center">
+                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.ChatBubbleOutline}"
+                                  IconSize="21" IconColor="{Binding MessagesColor}" WidthRequest="24" HeightRequest="24" />
+                <Label Text="Messages" FontSize="10" TextColor="{Binding MessagesColor}"
+                       HorizontalTextAlignment="Center" />
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="messages" />
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="3" Spacing="3" HorizontalOptions="Fill" VerticalOptions="Center">
+                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.PersonOutline}"
+                                  IconSize="21" IconColor="{Binding ProfileColor}" WidthRequest="24" HeightRequest="24" />
+                <Label Text="Profil" FontSize="10" TextColor="{Binding ProfileColor}"
+                       HorizontalTextAlignment="Center" />
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="profile" />
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>

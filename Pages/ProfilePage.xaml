@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CampusCart.Controls"
+             xmlns:icons="clr-namespace:IconFont.Maui.MaterialDesignIcons;assembly=IconFont.Maui.MaterialDesignIcons"
+             x:Class="CampusCart.Pages.ProfilePage"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False" BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" MaximumWidthRequest="480" HorizontalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="22,22,22,26" Spacing="20">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Mon profil" FontSize="24" FontAttributes="Bold" TextColor="#17223A" />
+                    <Label Text="Gère tes informations et tes services." FontSize="12" TextColor="#7A8599" />
+                </VerticalStackLayout>
+
+                <Border BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="18">
+                    <VerticalStackLayout Spacing="9" HorizontalOptions="Center">
+                        <Border HeightRequest="74" WidthRequest="74" BackgroundColor="#E4EBFF" StrokeThickness="0" StrokeShape="RoundRectangle 37">
+                            <Label Text="{Binding Initials}" FontSize="20" FontAttributes="Bold" TextColor="#315CEB"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Spacing="3" HorizontalOptions="Center">
+                            <Label Text="{Binding FullName}" FontSize="17" FontAttributes="Bold" TextColor="#17223A"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding Email}" FontSize="11" TextColor="#7A8599"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <Button Text="Modifier mon profil" BackgroundColor="#315CEB" TextColor="White"
+                                FontSize="11" FontAttributes="Bold" CornerRadius="10" HeightRequest="40"
+                                HorizontalOptions="Fill" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Border BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="12" FontSize="20" FontAttributes="Bold" TextColor="#315CEB" />
+                            <Label Text="Services réalisés" FontSize="10" TextColor="#7A8599" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="14">
+                        <VerticalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="5">
+                                <Label Text="4,8" FontSize="20" FontAttributes="Bold" TextColor="#315CEB" />
+                                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Star}"
+                                                  IconSize="17" IconColor="#E6A72E" />
+                            </HorizontalStackLayout>
+                            <Label Text="Note moyenne" FontSize="10" TextColor="#7A8599" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Mon compte" FontSize="17" FontAttributes="Bold" TextColor="#17223A" />
+                    <Border BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="14">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenOffersCommand}" />
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="40,*,Auto" ColumnSpacing="10">
+                            <Border HeightRequest="38" WidthRequest="38" BackgroundColor="#EEF3FF" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Assignment}"
+                                                  IconSize="19" IconColor="#315CEB" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                <Label Text="Mes services" FontSize="12" FontAttributes="Bold" TextColor="#26324B" />
+                                <Label Text="Gère les offres que tu proposes" FontSize="10" TextColor="#7A8599" />
+                            </VerticalStackLayout>
+                            <controls:AppIcon Grid.Column="2" Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.ChevronRight}"
+                                              IconSize="18" IconColor="#9AA3B3" />
+                        </Grid>
+                    </Border>
+                    <Button Text="Créer une offre" Command="{Binding CreateOfferCommand}"
+                            BackgroundColor="#315CEB" TextColor="White" FontSize="12" FontAttributes="Bold"
+                            CornerRadius="12" HeightRequest="46" />
+                    <Border BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="14">
+                        <Grid ColumnDefinitions="40,*,Auto" ColumnSpacing="10">
+                            <Border HeightRequest="38" WidthRequest="38" BackgroundColor="#F1F3FF" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Settings}"
+                                                  IconSize="19" IconColor="#5969D9" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                <Label Text="Paramètres" FontSize="12" FontAttributes="Bold" TextColor="#26324B" />
+                                <Label Text="Préférences et confidentialité" FontSize="10" TextColor="#7A8599" />
+                            </VerticalStackLayout>
+                            <controls:AppIcon Grid.Column="2" Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.ChevronRight}"
+                                              IconSize="18" IconColor="#9AA3B3" />
+                        </Grid>
+                    </Border>
+                    <Button Text="Se déconnecter" Command="{Binding LogoutCommand}"
+                            BackgroundColor="#FFF7F7" TextColor="#C33E4D" BorderColor="#F2DDDF"
+                            BorderWidth="1" FontSize="12" FontAttributes="Bold" CornerRadius="14"
+                            HeightRequest="48" ContentLayout="Left, 9" HorizontalOptions="Fill">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Logout}"
+                                             FontFamily="MaterialDesignIconsOutlined" Size="18" Color="#C33E4D" />
+                        </Button.ImageSource>
+                    </Button>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:BottomNavigationBar Grid.Row="1" SelectedTab="profile" />
+    </Grid>
+</ContentPage>
