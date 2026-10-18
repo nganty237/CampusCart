@@ -22,7 +22,7 @@
                                              FontFamily="MaterialDesignIconsOutlined" Size="20" Color="#202B43" />
                         </Button.ImageSource>
                     </Button>
-                    <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
                         <Label Text="Mes offres" FontSize="23" FontAttributes="Bold" TextColor="#171B24" />
                         <Label Text="{Binding OfferCountLabel}" FontSize="12" TextColor="#818897" />
                     </VerticalStackLayout>
