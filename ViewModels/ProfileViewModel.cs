@@ -9,12 +9,14 @@ public sealed class ProfileViewModel : BaseViewModel
     public string Email => AppSession.Email;
     public string Initials => AppSession.Initials;
     public ICommand LogoutCommand { get; }
+    public ICommand EditProfileCommand { get; }
     public ICommand OpenOffersCommand { get; }
     public ICommand CreateOfferCommand { get; }
 
     public ProfileViewModel()
     {
         LogoutCommand = new Command(async () => await LogoutAsync());
+        EditProfileCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(Pages.EditProfilePage)));
         OpenOffersCommand = new Command(async () => await Shell.Current.GoToAsync("//myoffers"));
         CreateOfferCommand = new Command(async () =>
         {

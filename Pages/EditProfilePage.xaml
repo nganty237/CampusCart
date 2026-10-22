@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.EditProfilePage"
+             x:DataType="vm:EditProfileViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout MaximumWidthRequest="480" HorizontalOptions="Center"
+                                 Padding="20,24,20,24" Spacing="20">
+                <Grid ColumnDefinitions="42,*" ColumnSpacing="10">
+                    <Button Text="‹" Command="{Binding CancelCommand}" BackgroundColor="White"
+                            TextColor="#202B43" FontSize="28" HeightRequest="40" WidthRequest="40"
+                            Padding="0" CornerRadius="12" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="Modifier mon profil" FontSize="21" FontAttributes="Bold" TextColor="#171B24" />
+                        <Label Text="Mets à jour tes coordonnées." FontSize="12" TextColor="#818897" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16" Padding="16">
+                    <VerticalStackLayout Spacing="14">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Nom complet" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                            <Entry Text="{Binding FullName}" Placeholder="Ex. : Nganty Gabriel"
+                                   BackgroundColor="#F7F8FC" TextColor="#343A46"
+                                   PlaceholderColor="#9299A7" ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Adresse e-mail" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
+                            <Entry Text="{Binding Email}" Placeholder="nom.prenom@etudiant.universite.cm"
+                                   Keyboard="Email" BackgroundColor="#F7F8FC" TextColor="#343A46"
+                                   PlaceholderColor="#9299A7" ClearButtonVisibility="WhileEditing" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="{Binding ValidationMessage}" FontSize="12" TextColor="#D94B54" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#E6E9EF" StrokeThickness="1" Padding="18,12">
+            <Grid MaximumWidthRequest="444" HorizontalOptions="Center"
+                  ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Text="Annuler" Command="{Binding CancelCommand}" BackgroundColor="White"
+                        TextColor="#48536A" BorderColor="#E1E5EC" BorderWidth="1"
+                        FontSize="13" CornerRadius="12" HeightRequest="48" />
+                <Button Grid.Column="1" Text="Enregistrer" Command="{Binding SaveCommand}"
+                        BackgroundColor="#315CEB" TextColor="White" FontSize="13"
+                        FontAttributes="Bold" CornerRadius="12" HeightRequest="48" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

@@ -26,7 +26,8 @@
                             <Label Text="{Binding Email}" FontSize="11" TextColor="#7A8599"
                                    HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
-                        <Button Text="Modifier mon profil" BackgroundColor="#315CEB" TextColor="White"
+                        <Button Text="Modifier mon profil" Command="{Binding EditProfileCommand}"
+                                BackgroundColor="#315CEB" TextColor="White"
                                 FontSize="11" FontAttributes="Bold" CornerRadius="10" HeightRequest="40"
                                 HorizontalOptions="Fill" />
                     </VerticalStackLayout>

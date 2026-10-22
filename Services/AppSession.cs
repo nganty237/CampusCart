@@ -21,6 +21,13 @@ public static class AppSession
         Changed?.Invoke(null, EventArgs.Empty);
     }
 
+    public static void UpdateProfile(string fullName, string email)
+    {
+        FullName = fullName.Trim();
+        Email = email.Trim();
+        Changed?.Invoke(null, EventArgs.Empty);
+    }
+
     public static string GetInitials(string? fullName)
     {
         var parts = (fullName ?? string.Empty)
