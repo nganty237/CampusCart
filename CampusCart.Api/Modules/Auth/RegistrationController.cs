@@ -167,11 +167,11 @@ public sealed class RegistrationController(
 }
 
 public sealed record RegisterRequest(
-    [property: Required, StringLength(120, MinimumLength = 2)] string FullName,
-    [property: Required, EmailAddress, StringLength(254)] string Email,
-    [property: Required, StringLength(100, MinimumLength = 8)] string Password);
+    [param: Required, StringLength(120, MinimumLength = 2)] string FullName,
+    [param: Required, EmailAddress, StringLength(254)] string Email,
+    [param: Required, StringLength(100, MinimumLength = 8)] string Password);
 public sealed record ConfirmEmailRequest(
-    [property: Required, EmailAddress, StringLength(254)] string Email,
-    [property: Required, RegularExpression(@"^\d{6}$")] string Code);
+    [param: Required, EmailAddress, StringLength(254)] string Email,
+    [param: Required, RegularExpression(@"^\d{6}$")] string Code);
 public sealed record ResendVerificationCodeRequest(
-    [property: Required, EmailAddress, StringLength(254)] string Email);
+    [param: Required, EmailAddress, StringLength(254)] string Email);

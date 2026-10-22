@@ -230,10 +230,10 @@ public sealed class RequestsController(
 }
 
 public sealed record CreateServiceRequest(
-    [property: Required] Guid ListingId,
-    [property: Required] DateTimeOffset RequestedForUtc,
-    [property: Required, StringLength(160, MinimumLength = 2)] string HandoverLocation,
-    [property: Required, StringLength(1000, MinimumLength = 2)] string Message);
+    [param: Required] Guid ListingId,
+    [param: Required] DateTimeOffset RequestedForUtc,
+    [param: Required, StringLength(160, MinimumLength = 2)] string HandoverLocation,
+    [param: Required, StringLength(1000, MinimumLength = 2)] string Message);
 
 public sealed record RequestSummary(
     Guid Id,

@@ -99,9 +99,9 @@ public sealed class ReviewsController(
 }
 
 public sealed record CreateReviewRequest(
-    [property: Required] Guid RequestId,
-    [property: Range(1, 5)] int Rating,
-    [property: StringLength(1000)] string? Comment);
+    [param: Required] Guid RequestId,
+    [param: Range(1, 5)] int Rating,
+    [param: StringLength(1000)] string? Comment);
 
 public sealed record ReviewResponse(
     Guid Id,

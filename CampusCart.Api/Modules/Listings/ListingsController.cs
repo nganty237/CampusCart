@@ -244,20 +244,20 @@ public sealed record PagedResult<T>(
     int TotalCount);
 
 public sealed record CreateListingRequest(
-    [property: Required, StringLength(120, MinimumLength = 3)] string Title,
-    [property: Required, StringLength(60, MinimumLength = 2)] string Category,
-    [property: Required, StringLength(2000, MinimumLength = 10)] string Description,
-    [property: Range(1, 100_000_000)] int PriceXaf,
-    [property: Required, StringLength(80, MinimumLength = 2)] string Unit,
-    [property: Required, StringLength(120, MinimumLength = 2)] string Location);
+    [param: Required, StringLength(120, MinimumLength = 3)] string Title,
+    [param: Required, StringLength(60, MinimumLength = 2)] string Category,
+    [param: Required, StringLength(2000, MinimumLength = 10)] string Description,
+    [param: Range(1, 100_000_000)] int PriceXaf,
+    [param: Required, StringLength(80, MinimumLength = 2)] string Unit,
+    [param: Required, StringLength(120, MinimumLength = 2)] string Location);
 
 public sealed record UpdateListingRequest(
-    [property: Required, StringLength(120, MinimumLength = 3)] string Title,
-    [property: Required, StringLength(60, MinimumLength = 2)] string Category,
-    [property: Required, StringLength(2000, MinimumLength = 10)] string Description,
-    [property: Range(1, 100_000_000)] int PriceXaf,
-    [property: Required, StringLength(80, MinimumLength = 2)] string Unit,
-    [property: Required, StringLength(120, MinimumLength = 2)] string Location);
+    [param: Required, StringLength(120, MinimumLength = 3)] string Title,
+    [param: Required, StringLength(60, MinimumLength = 2)] string Category,
+    [param: Required, StringLength(2000, MinimumLength = 10)] string Description,
+    [param: Range(1, 100_000_000)] int PriceXaf,
+    [param: Required, StringLength(80, MinimumLength = 2)] string Unit,
+    [param: Required, StringLength(120, MinimumLength = 2)] string Location);
 
 public sealed record SetListingActiveRequest(bool IsActive);
 

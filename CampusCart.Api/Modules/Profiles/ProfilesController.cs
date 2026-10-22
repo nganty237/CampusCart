@@ -80,7 +80,7 @@ public sealed class ProfilesController(
 }
 
 public sealed record UpdateProfileRequest(
-    [property: Required, StringLength(120, MinimumLength = 2)] string FullName);
+    [param: Required, StringLength(120, MinimumLength = 2)] string FullName);
 
 public sealed record ProfileResponse(
     Guid Id,

@@ -132,7 +132,7 @@ public sealed class ConversationsController(
 }
 
 public sealed record SendMessageRequest(
-    [property: Required, StringLength(2000, MinimumLength = 1)] string Body);
+    [param: Required, StringLength(2000, MinimumLength = 1)] string Body);
 
 public sealed record ConversationSummary(
     Guid Id,
