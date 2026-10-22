@@ -10,6 +10,10 @@ public sealed class ServiceListing : INotifyPropertyChanged
     private bool _isFavorite;
 
     public event PropertyChangedEventHandler? PropertyChanged;
+    public Guid Id { get; init; }
+    public Guid? ProviderId { get; init; }
+    public int PriceXaf { get; init; }
+    public string Unit { get; init; } = "service";
     public required string Title { get; init; }
     public required string Category { get; init; }
     public required string Provider { get; init; }

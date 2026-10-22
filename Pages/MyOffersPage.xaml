@@ -51,9 +51,9 @@
                                             <Label Text="{Binding Status}" FontSize="10" FontAttributes="Bold"
                                                    TextColor="{Binding StatusColor}" />
                                         </Border>
-                                        <Button Grid.Column="2" Text="&#xE872;" FontFamily="MaterialDesignIconsOutlined"
-                                                Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"
-                                                BackgroundColor="#FFF1F1" TextColor="#C33E4D" FontSize="18"
+                                        <Button Grid.Column="2" Text="&#xE3C9;" FontFamily="MaterialDesignIconsOutlined"
+                                                Command="{Binding EditCommand}" CommandParameter="{Binding .}"
+                                                BackgroundColor="#F2F5FF" TextColor="#315CEB" FontSize="18"
                                                 HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="10"
                                                 VerticalOptions="Center" HorizontalOptions="End" />
                                     </Grid>

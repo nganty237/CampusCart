@@ -44,7 +44,31 @@ public sealed class CreateRequestViewModel : BaseViewModel
         }
 
         ValidationMessage = string.Empty;
-        RequestFlowStore.SubmitRequest(RequestedTime.Trim(), HandoverLocation.Trim(), Message.Trim());
-        await Shell.Current.GoToAsync(nameof(Pages.RequestConfirmationPage));
+        if (!TryParseRequestedTime(RequestedTime, out var requestedFor))
+        {
+            ValidationMessage = "Indique une date future, par exemple « Demain · 14:00 ».";
+            return;
+        }
+        try
+        {
+            var dto = await App.Api.CreateRequestAsync(new CreateRequestDto(Offer.Id, requestedFor.ToUniversalTime(),
+                HandoverLocation.Trim(), Message.Trim()));
+            RequestFlowStore.SetLatestRequest(ApiUiMapper.ToRequest(dto, true));
+            await Shell.Current.GoToAsync(nameof(Pages.RequestConfirmationPage));
+        }
+        catch (ApiException ex) { ValidationMessage = ex.Message; }
+    }
+
+    private static bool TryParseRequestedTime(string input, out DateTimeOffset result)
+    {
+        var parts = input.Split('·', StringSplitOptions.TrimEntries);
+        if (parts.Length == 2 && TimeOnly.TryParse(parts[1], out var time))
+        {
+            var date = parts[0].Equals("Aujourd'hui", StringComparison.OrdinalIgnoreCase) ? DateOnly.FromDateTime(DateTime.Now)
+                : parts[0].Equals("Demain", StringComparison.OrdinalIgnoreCase) ? DateOnly.FromDateTime(DateTime.Now.AddDays(1))
+                : DateOnly.TryParse(parts[0], out var parsed) ? parsed : DateOnly.MinValue;
+            if (date != DateOnly.MinValue) { result = date.ToDateTime(time, DateTimeKind.Local); return result > DateTimeOffset.Now; }
+        }
+        return DateTimeOffset.TryParse(input, out result) && result > DateTimeOffset.Now;
     }
 }

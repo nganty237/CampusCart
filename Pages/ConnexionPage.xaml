@@ -37,9 +37,10 @@
 
             <VerticalStackLayout Grid.Row="3" Spacing="6">
                 <Label Text="E-mail universitaire" FontSize="12" TextColor="#292D36" />
-                <Entry Text="{Binding Email}" Placeholder="nom.prenom@etudiant.universite.cm" Keyboard="Email"
+                <Entry Text="{Binding Email}" Placeholder="prenom.nom@enspd.cm" Keyboard="Email"
                        BackgroundColor="White" TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="48"
                        ClearButtonVisibility="WhileEditing" />
+                <Label Text="Adresse de l’ENSPD au format prenom.nom@enspd.cm." FontSize="10" TextColor="#858B98" />
                 <Label Text="{Binding EmailError}" FontSize="10" TextColor="#E5484D" />
             </VerticalStackLayout>
 
@@ -56,6 +57,10 @@
                     HorizontalOptions="Start" HeightRequest="38" />
             <Label Grid.Row="6" Text="Utilise ton adresse universitaire pour retrouver tes demandes et tes conversations."
                    FontSize="11" TextColor="#858B98" LineBreakMode="WordWrap" Margin="0,0,0,18" />
+            <VerticalStackLayout Grid.Row="7" Spacing="4">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#315CEB" HeightRequest="24" />
+                <Label Text="{Binding StatusMessage}" FontSize="11" TextColor="#E5484D" LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="9" Spacing="8" VerticalOptions="End">
                 <Button Text="Se connecter" Command="{Binding SignInCommand}" BackgroundColor="#315CEB"

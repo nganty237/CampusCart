@@ -25,8 +25,14 @@ public sealed class ProfileViewModel : BaseViewModel
         });
     }
 
-    public void Refresh()
+    public async void Refresh()
     {
+        try
+        {
+            var profile = await App.Api.GetProfileAsync();
+            AppSession.UpdateProfile(profile.FullName, profile.Email);
+        }
+        catch (ApiException ex) { await Shell.Current.DisplayAlertAsync("Profil", ex.Message, "OK"); }
         OnPropertyChanged(nameof(FullName));
         OnPropertyChanged(nameof(Email));
         OnPropertyChanged(nameof(Initials));
@@ -34,6 +40,7 @@ public sealed class ProfileViewModel : BaseViewModel
 
     private static async Task LogoutAsync()
     {
+        await App.Api.LogoutAsync();
         AppSession.SignOut();
         await Shell.Current.GoToAsync("//login");
     }

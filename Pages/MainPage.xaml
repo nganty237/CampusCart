@@ -110,6 +110,8 @@
                                 FontSize="11" FontAttributes="Bold" TextColor="#315CEB"
                                 BackgroundColor="Transparent" Padding="4,0" VerticalOptions="Center" />
                     </Grid>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#315CEB" HeightRequest="24" />
+                    <Label Text="{Binding StatusMessage}" FontSize="11" TextColor="#D94B54" LineBreakMode="WordWrap" />
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding Services}" Spacing="10">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="models:ServiceListing">

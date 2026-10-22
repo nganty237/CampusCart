@@ -9,12 +9,17 @@ public sealed class FindServiceViewModel : BaseViewModel
 {
     private string _searchText = string.Empty;
     private string _selectedCategory = "Tout";
+    private readonly List<ServiceListing> _apiServices = [];
+    private string _statusMessage = string.Empty;
+    private bool _isBusy;
 
     public ObservableCollection<ServiceListing> Services { get; } = new();
     public ObservableCollection<ServiceCategoryFilter> Categories { get; } = new();
     public string ResultsLabel => Services.Count == 1 ? "1 offre disponible" : $"{Services.Count} offres disponibles";
     public bool HasResults => Services.Count > 0;
     public bool HasNoResults => !HasResults;
+    public string StatusMessage { get => _statusMessage; private set => SetProperty(ref _statusMessage, value); }
+    public bool IsBusy { get => _isBusy; private set => SetProperty(ref _isBusy, value); }
     public ICommand SelectCategoryCommand { get; }
     public ICommand ResetCommand { get; }
     public ICommand OpenOfferCommand { get; }
@@ -75,9 +80,7 @@ public sealed class FindServiceViewModel : BaseViewModel
 
     private void FilterServices()
     {
-        var allServices = ServiceCatalog.Listings.Concat(OfferManagementStore.MyOffers
-            .Where(offer => offer.IsActive)
-            .Select(offer => offer.Listing));
+        var allServices = _apiServices;
         var query = SearchText.Trim();
         var matches = allServices.Where(offer =>
             (string.IsNullOrWhiteSpace(query) ||
@@ -96,6 +99,22 @@ public sealed class FindServiceViewModel : BaseViewModel
         OnPropertyChanged(nameof(ResultsLabel));
         OnPropertyChanged(nameof(HasResults));
         OnPropertyChanged(nameof(HasNoResults));
+    }
+
+    public async Task LoadServicesAsync()
+    {
+        if (IsBusy) return;
+        IsBusy = true;
+        try
+        {
+            var result = await App.Api.GetListingsAsync();
+            _apiServices.Clear();
+            _apiServices.AddRange(result.Items.Select(ApiUiMapper.ToListing));
+            StatusMessage = string.Empty;
+            FilterServices();
+        }
+        catch (ApiException ex) { StatusMessage = ex.Message; }
+        finally { IsBusy = false; }
     }
 
     private static bool MatchesCategory(ServiceListing offer, string category) => category switch

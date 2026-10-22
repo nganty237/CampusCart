@@ -8,19 +8,16 @@ namespace CampusCart.ViewModels;
 public sealed class RequestsViewModel : BaseViewModel
 {
     private bool _showSent = true;
-
-    private readonly ServiceRequest[] _receivedRequests =
-    [
-        new("Aujourd'hui · 11:30 · 1 000 FCFA", "À répondre", "Relecture de rapports",
-            "Patrick", "P", "Campus ENSPD", Color.FromArgb("#E8E5FF"), Color.FromArgb("#315CEB")),
-        new("Demain · 09:00 · 2 500 FCFA", "Acceptée", "Cours de mathématiques",
-            "Messina Richard", "MR", "Bibliothèque centrale", Color.FromArgb("#DCE6FF"), Color.FromArgb("#2DA875"))
-    ];
-
+    private int _sentCount;
+    private int _receivedCount;
+    private string _statusMessage = string.Empty;
+    private bool _isBusy;
     public ObservableCollection<ServiceRequest> Requests { get; } = new();
     public string UserInitials => AppSession.Initials;
-    public string SentTabLabel => $"Envoyées · {RequestFlowStore.SentRequests.Count}";
-    public string ReceivedTabLabel => $"Reçues · {RequestFlowStore.ReceivedRequestCount}";
+    public string StatusMessage { get => _statusMessage; private set => SetProperty(ref _statusMessage, value); }
+    public bool IsBusy { get => _isBusy; private set => SetProperty(ref _isBusy, value); }
+    public string SentTabLabel => $"Envoyées · {_sentCount}";
+    public string ReceivedTabLabel => $"Reçues · {_receivedCount}";
     public Color SentTabBackground => _showSent ? Color.FromArgb("#315CEB") : Colors.White;
     public Color ReceivedTabBackground => _showSent ? Colors.White : Color.FromArgb("#315CEB");
     public Color SentTabTextColor => _showSent ? Colors.White : Color.FromArgb("#727D91");
@@ -31,8 +28,7 @@ public sealed class RequestsViewModel : BaseViewModel
 
     public RequestsViewModel()
     {
-        AppSession.Changed += OnSessionChanged;
-
+        AppSession.Changed += (_, _) => OnPropertyChanged(nameof(UserInitials));
         ShowSentCommand = new Command(() => SetTab(true));
         ShowReceivedCommand = new Command(() => SetTab(false));
         ReviewRequestCommand = new Command<ServiceRequest>(async request =>
@@ -44,37 +40,47 @@ public sealed class RequestsViewModel : BaseViewModel
         LoadRequests();
     }
 
-    private void OnSessionChanged(object? sender, EventArgs e) =>
-        OnPropertyChanged(nameof(UserInitials));
+    public void RefreshRequests() => LoadRequests();
 
-    public void RefreshRequests()
+    private void SetTab(bool sent)
     {
-        OnPropertyChanged(nameof(SentTabLabel));
-        OnPropertyChanged(nameof(ReceivedTabLabel));
+        if (_showSent == sent) return;
+        _showSent = sent;
+        OnPropertyChanged(nameof(SentTabBackground)); OnPropertyChanged(nameof(ReceivedTabBackground));
+        OnPropertyChanged(nameof(SentTabTextColor)); OnPropertyChanged(nameof(ReceivedTabTextColor));
         LoadRequests();
     }
 
-    private void SetTab(bool showSent)
+    private async void LoadRequests()
     {
-        if (_showSent == showSent) return;
-        _showSent = showSent;
-        OnPropertyChanged(nameof(SentTabLabel));
-        OnPropertyChanged(nameof(ReceivedTabLabel));
-        OnPropertyChanged(nameof(SentTabBackground));
-        OnPropertyChanged(nameof(ReceivedTabBackground));
-        OnPropertyChanged(nameof(SentTabTextColor));
-        OnPropertyChanged(nameof(ReceivedTabTextColor));
-        LoadRequests();
-    }
-
-    private void LoadRequests()
-    {
-        Requests.Clear();
-        var requests = _showSent ? RequestFlowStore.SentRequests : _receivedRequests;
-        foreach (var request in requests)
+        if (IsBusy) return;
+        IsBusy = true;
+        try
         {
-            request.ReviewCommand = ReviewRequestCommand;
-            Requests.Add(request);
+            var sent = await App.Api.GetRequestsAsync(true);
+            var received = await App.Api.GetRequestsAsync(false);
+            _sentCount = sent.TotalCount; _receivedCount = received.TotalCount;
+            Requests.Clear();
+            foreach (var item in (_showSent ? sent.Items : received.Items))
+            {
+                var request = ApiUiMapper.ToRequest(item, _showSent);
+                request.ReviewCommand = ReviewRequestCommand;
+                request.AcceptCommand = new Command(async () => await TransitionAsync(request, "accept"));
+                request.DeclineCommand = new Command(async () => await TransitionAsync(request, "decline"));
+                request.CancelCommand = new Command(async () => await TransitionAsync(request, "cancel"));
+                request.CompleteCommand = new Command(async () => await TransitionAsync(request, "confirm-completion"));
+                Requests.Add(request);
+            }
+            StatusMessage = string.Empty;
         }
+        catch (ApiException ex) { StatusMessage = ex.Message; }
+        finally { IsBusy = false; }
+        OnPropertyChanged(nameof(SentTabLabel)); OnPropertyChanged(nameof(ReceivedTabLabel));
+    }
+
+    private async Task TransitionAsync(ServiceRequest request, string action)
+    {
+        try { await App.Api.TransitionRequestAsync(request.Id, action); LoadRequests(); }
+        catch (ApiException ex) { StatusMessage = ex.Message; }
     }
 }

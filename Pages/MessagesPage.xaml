@@ -37,6 +37,8 @@
                     </Grid>
                 </Border>
 
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#315CEB" HeightRequest="24" />
+                <Label Text="{Binding StatusMessage}" FontSize="11" TextColor="#D94B54" LineBreakMode="WordWrap" />
                 <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Conversations}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:Conversation">

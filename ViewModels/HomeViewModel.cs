@@ -9,12 +9,16 @@ namespace CampusCart.ViewModels;
 public sealed class HomeViewModel : BaseViewModel
 {
     private string _searchText = string.Empty;
-    private readonly List<ServiceListing> _seedServices;
+    private readonly List<ServiceListing> _seedServices = [];
+    private string _statusMessage = string.Empty;
+    private bool _isBusy;
 
     public ObservableCollection<ServiceCategory> Categories { get; } = new();
     public ObservableCollection<ServiceListing> Services { get; } = new();
     public string Greeting => $"Bonjour, {AppSession.FullName}";
     public string UserInitials => AppSession.Initials;
+    public string StatusMessage { get => _statusMessage; private set => SetProperty(ref _statusMessage, value); }
+    public bool IsBusy { get => _isBusy; private set => SetProperty(ref _isBusy, value); }
     public ICommand PublishCommand { get; }
     public ICommand ToggleFavoriteCommand { get; }
     public ICommand OpenServiceCommand { get; }
@@ -37,8 +41,6 @@ public sealed class HomeViewModel : BaseViewModel
         Categories.Add(new("Aide tech", MaterialDesignIconsOutlinedRegular.Computer, Color.FromArgb("#EEF7FA"), "Installation, d\u00E9pannage..."));
         Categories.Add(new("Soutien scolaire", MaterialDesignIconsOutlinedRegular.School, Color.FromArgb("#F2F1FF"), "Cours, exercices..."));
         Categories.Add(new("Autres services", MaterialDesignIconsOutlinedRegular.MoreHoriz, Color.FromArgb("#F5F1EA"), "Et plus encore"));
-
-        _seedServices = ServiceCatalog.Listings.ToList();
 
         ToggleFavoriteCommand = new Command<ServiceListing>(service =>
         {
@@ -90,6 +92,22 @@ public sealed class HomeViewModel : BaseViewModel
             service.OpenCommand = OpenServiceCommand;
             Services.Add(service);
         }
+    }
+
+    public async Task LoadServicesAsync()
+    {
+        if (IsBusy) return;
+        IsBusy = true;
+        try
+        {
+            var result = await App.Api.GetListingsAsync();
+            _seedServices.Clear();
+            _seedServices.AddRange(result.Items.Select(ApiUiMapper.ToListing));
+            StatusMessage = string.Empty;
+            RefreshServices();
+        }
+        catch (ApiException ex) { StatusMessage = ex.Message; }
+        finally { IsBusy = false; }
     }
 
     private void FilterServices()

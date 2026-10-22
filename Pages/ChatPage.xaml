@@ -26,7 +26,8 @@
         <ScrollView Grid.Row="1" MaximumWidthRequest="480" HorizontalOptions="Center"
                     VerticalScrollBarVisibility="Never">
             <VerticalStackLayout Padding="10,4,10,16" Spacing="12">
-                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                <Label Text="{Binding StatusMessage}" FontSize="11" TextColor="#D94B54" LineBreakMode="WordWrap" />
+                <Border IsVisible="{Binding Conversation.HasRequestContext}" BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
                         StrokeShape="RoundRectangle 13" Padding="11">
                     <VerticalStackLayout Spacing="7">
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
@@ -42,7 +43,7 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <Label Text="Aujourd'hui · 11:20" FontSize="9" TextColor="#818897"
+                <Label Text="{Binding ConversationTimeLabel}" FontSize="9" TextColor="#818897"
                        HorizontalTextAlignment="Center" Margin="0,0,0,1" />
 
                 <VerticalStackLayout Spacing="9" BindableLayout.ItemsSource="{Binding Messages}">
@@ -73,7 +74,6 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
-                <Label Text="Lu à 11:24" FontSize="9" TextColor="#818897" />
             </VerticalStackLayout>
         </ScrollView>
 

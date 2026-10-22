@@ -29,22 +29,18 @@ public sealed class EditProfileViewModel : BaseViewModel
     private async Task SaveAsync()
     {
         var name = FullName.Trim();
-        var email = Email.Trim();
         if (string.IsNullOrWhiteSpace(name))
         {
             ValidationMessage = "Saisis ton nom complet.";
             return;
         }
 
-        var atIndex = email.IndexOf('@');
-        if (atIndex <= 0 || atIndex == email.Length - 1 ||
-            !email[(atIndex + 1)..].Contains('.', StringComparison.Ordinal))
+        try
         {
-            ValidationMessage = "Saisis une adresse e-mail valide.";
-            return;
+            var profile = await App.Api.UpdateProfileAsync(name);
+            AppSession.UpdateProfile(profile.FullName, profile.Email);
+            await Shell.Current.GoToAsync("..");
         }
-
-        AppSession.UpdateProfile(name, email);
-        await Shell.Current.GoToAsync("..");
+        catch (ApiException ex) { ValidationMessage = ex.Message; }
     }
 }

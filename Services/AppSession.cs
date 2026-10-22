@@ -9,15 +9,17 @@ public static class AppSession
     public static bool IsAuthenticated { get; private set; }
     public static string FullName { get; private set; } = "Etudiant CampusCart";
     public static string Email { get; private set; } = string.Empty;
+    public static Guid? UserId { get; private set; }
     public static string Initials => GetInitials(FullName);
 
-    public static void SignIn(string email, string? fullName = null)
+    public static void SignIn(string email, string? fullName = null, Guid? userId = null)
     {
         Email = email.Trim();
         FullName = string.IsNullOrWhiteSpace(fullName)
             ? BuildNameFromEmail(Email)
             : fullName.Trim();
         IsAuthenticated = true;
+        UserId = userId;
         Changed?.Invoke(null, EventArgs.Empty);
     }
 
@@ -42,6 +44,7 @@ public static class AppSession
     {
         IsAuthenticated = false;
         Email = string.Empty;
+        UserId = null;
         FullName = "Étudiant CampusCart";
         Changed?.Invoke(null, EventArgs.Empty);
     }

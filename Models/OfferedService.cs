@@ -18,6 +18,7 @@ public sealed class OfferedService : INotifyPropertyChanged
     public required ServiceListing Listing { get; init; }
     public ICommand? ToggleCommand { get; set; }
     public ICommand? DeleteCommand { get; set; }
+    public ICommand? EditCommand { get; set; }
     public bool IsActive
     {
         get => _isActive;

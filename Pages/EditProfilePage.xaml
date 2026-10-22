@@ -31,8 +31,8 @@
                         </VerticalStackLayout>
                         <VerticalStackLayout Spacing="6">
                             <Label Text="Adresse e-mail" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
-                            <Entry Text="{Binding Email}" Placeholder="nom.prenom@etudiant.universite.cm"
-                                   Keyboard="Email" BackgroundColor="#F7F8FC" TextColor="#343A46"
+                            <Entry Text="{Binding Email}" Placeholder="prenom.nom@enspd.cm"
+                                   Keyboard="Email" IsReadOnly="True" BackgroundColor="#F7F8FC" TextColor="#858B98"
                                    PlaceholderColor="#9299A7" ClearButtonVisibility="WhileEditing" />
                         </VerticalStackLayout>
                     </VerticalStackLayout>

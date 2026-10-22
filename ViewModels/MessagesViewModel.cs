@@ -8,57 +8,48 @@ namespace CampusCart.ViewModels;
 public sealed class MessagesViewModel : BaseViewModel
 {
     private string _searchText = string.Empty;
-    private readonly List<Conversation> _allConversations =
-    [
-        new("Messina Richard", "MR", "Impression documents A4", "Parfait, à 16 h à la bibliothèque !", "11:24", 1, Color.FromArgb("#DCE6FF")),
-        new("Bikele Frank", "BF", "Cours de maths · L1", "Tu peux m'envoyer le chapitre ?", "10:48", 1, Color.FromArgb("#E8E5FF")),
-        new("Patrick", "P", "Relecture de rapports", "Merci ! Je joins mon rapport.", "Hier", 0, Color.FromArgb("#DCE6FF")),
-        new("Bikele Frank", "BF", "Relecture de rapports", "Merci pour les corrections, Gabriel.", "3 oct.", 0, Color.FromArgb("#E8E5FF"))
-    ];
-
+    private string _statusMessage = string.Empty;
+    private bool _isBusy;
+    private readonly List<Conversation> _allConversations = [];
     public ObservableCollection<Conversation> Conversations { get; } = new();
     public string UserInitials => AppSession.Initials;
+    public string StatusMessage { get => _statusMessage; private set => SetProperty(ref _statusMessage, value); }
+    public bool IsBusy { get => _isBusy; private set => SetProperty(ref _isBusy, value); }
     public ICommand OpenConversationCommand { get; }
-
-    public string SearchText
-    {
-        get => _searchText;
-        set
-        {
-            if (SetProperty(ref _searchText, value)) FilterConversations();
-        }
-    }
+    public string SearchText { get => _searchText; set { if (SetProperty(ref _searchText, value)) FilterConversations(); } }
 
     public MessagesViewModel()
     {
-        AppSession.Changed += OnSessionChanged;
-
+        AppSession.Changed += (_, _) => OnPropertyChanged(nameof(UserInitials));
         OpenConversationCommand = new Command<Conversation>(async conversation =>
         {
             if (conversation is null) return;
-
-            await Shell.Current.GoToAsync(nameof(Pages.ChatPage), new Dictionary<string, object>
-            {
-                ["Conversation"] = conversation
-            });
+            await Shell.Current.GoToAsync(nameof(Pages.ChatPage), new Dictionary<string, object> { ["Conversation"] = conversation });
         });
-        FilterConversations();
     }
 
-    private void OnSessionChanged(object? sender, EventArgs e) =>
-        OnPropertyChanged(nameof(UserInitials));
+    public async Task LoadConversationsAsync()
+    {
+        if (IsBusy) return;
+        IsBusy = true;
+        try
+        {
+            var items = await App.Api.GetConversationsAsync();
+            _allConversations.Clear(); _allConversations.AddRange(items.Select(ApiUiMapper.ToConversation));
+            StatusMessage = items.Count == 0 ? "Aucune conversation pour le moment." : string.Empty;
+            FilterConversations();
+        }
+        catch (ApiException ex) { StatusMessage = ex.Message; }
+        finally { IsBusy = false; }
+    }
 
     private void FilterConversations()
     {
         var query = SearchText.Trim();
-        var conversations = string.IsNullOrWhiteSpace(query)
-            ? _allConversations
-            : _allConversations.Where(message =>
-                message.ContactName.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
-                message.ServiceTitle.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
-                message.Preview.Contains(query, StringComparison.CurrentCultureIgnoreCase));
-
-        Conversations.Clear();
-        foreach (var conversation in conversations) Conversations.Add(conversation);
+        var filtered = string.IsNullOrWhiteSpace(query) ? _allConversations : _allConversations.Where(item =>
+            item.ContactName.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
+            item.ServiceTitle.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
+            item.Preview.Contains(query, StringComparison.CurrentCultureIgnoreCase));
+        Conversations.Clear(); foreach (var conversation in filtered) Conversations.Add(conversation);
     }
 }

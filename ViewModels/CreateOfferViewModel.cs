@@ -8,6 +8,7 @@ namespace CampusCart.ViewModels;
 public sealed class CreateOfferViewModel : BaseViewModel
 {
     private string _validationMessage = string.Empty;
+    private bool _isBusy;
 
     public OfferDraft Draft => OfferManagementStore.Draft;
     public string TitleCountLabel => $"{Draft.Title.Length} / 60 caractères";
@@ -19,11 +20,12 @@ public sealed class CreateOfferViewModel : BaseViewModel
     public bool IsStepTwo => CurrentStep == 2;
     public bool IsStepThree => CurrentStep == 3;
     public string StepCaption => $"Étape {CurrentStep} sur 3 · {CurrentStep switch { 1 => "Ton service", 2 => "Ton tarif", _ => "Derniers détails" }}";
-    public string PrimaryActionLabel => IsStepThree ? "Publier mon offre" : "Continuer";
+    public string PrimaryActionLabel => IsStepThree ? (OfferManagementStore.EditingListingId is null ? "Publier mon offre" : "Enregistrer les modifications") : "Continuer";
     public Color StepOneColor => Color.FromArgb("#315CEB");
     public Color StepTwoColor => CurrentStep >= 2 ? Color.FromArgb("#315CEB") : Color.FromArgb("#E1E5EC");
     public Color StepThreeColor => CurrentStep >= 3 ? Color.FromArgb("#315CEB") : Color.FromArgb("#E1E5EC");
     public string ValidationMessage { get => _validationMessage; private set => SetProperty(ref _validationMessage, value); }
+    public bool IsBusy { get => _isBusy; private set => SetProperty(ref _isBusy, value); }
     public string PricePreview => string.IsNullOrWhiteSpace(Draft.Price) || string.IsNullOrWhiteSpace(Draft.Unit)
         ? "Ton tarif apparaîtra ici"
         : $"{Draft.Price} FCFA / {Draft.Unit}";
@@ -101,8 +103,33 @@ public sealed class CreateOfferViewModel : BaseViewModel
             return;
         }
 
-        OfferManagementStore.PublishDraft();
-        await Shell.Current.GoToAsync(nameof(Pages.OfferPublishedPage));
+        if (IsBusy) return;
+        IsBusy = true;
+        try
+        {
+            var normalized = Draft.Price.Replace(" ", string.Empty).Replace("\u00A0", string.Empty).Replace("\u202F", string.Empty);
+            if (!int.TryParse(normalized, NumberStyles.Integer, CultureInfo.InvariantCulture, out var price))
+            {
+                ValidationMessage = "Le tarif doit être un montant entier en FCFA.";
+                return;
+            }
+            var category = CampusCartApiService.CategoryForApi(Draft.Category);
+            var dto = OfferManagementStore.EditingListingId is Guid id
+                ? await App.Api.UpdateListingAsync(id, Draft.Title.Trim(), category, Draft.Description.Trim(), price, Draft.Unit.Trim(), Draft.Availability.Trim())
+                : await App.Api.CreateListingAsync(Draft.Title.Trim(), category, Draft.Description.Trim(), price, Draft.Unit.Trim(), Draft.Availability.Trim());
+            if (OfferManagementStore.EditingListingId is null)
+            {
+                OfferManagementStore.AddPublished(ApiUiMapper.ToListing(dto));
+                await Shell.Current.GoToAsync(nameof(Pages.OfferPublishedPage));
+            }
+            else
+            {
+                OfferManagementStore.ReplacePublished(ApiUiMapper.ToListing(dto));
+                await Shell.Current.GoToAsync("//myoffers");
+            }
+        }
+        catch (ApiException ex) { ValidationMessage = ex.Message; }
+        finally { IsBusy = false; }
     }
 
     private void ChangeStep(int step)

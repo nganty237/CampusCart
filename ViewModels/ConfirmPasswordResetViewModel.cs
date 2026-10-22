@@ -4,68 +4,26 @@ namespace CampusCart.ViewModels;
 
 public sealed class ConfirmPasswordResetViewModel : BaseViewModel, IQueryAttributable
 {
-    private const string DemoCode = "123456";
     private string _email = string.Empty;
     private string _code = string.Empty;
     private string _codeError = string.Empty;
-    private bool _isConfirmed;
-
-    public string Email
-    {
-        get => _email;
-        private set => SetProperty(ref _email, value);
-    }
-
-    public string Code
-    {
-        get => _code;
-        set => SetProperty(ref _code, value);
-    }
-
-    public string CodeError
-    {
-        get => _codeError;
-        private set => SetProperty(ref _codeError, value);
-    }
-
-    public bool IsConfirmed
-    {
-        get => _isConfirmed;
-        private set
-        {
-            if (!SetProperty(ref _isConfirmed, value)) return;
-            OnPropertyChanged(nameof(IsFormVisible));
-        }
-    }
-
-    public bool IsFormVisible => !IsConfirmed;
-
-    public string DemoCodeHint => $"Code frontend de démonstration : {DemoCode}";
+    public string Email { get => _email; private set => SetProperty(ref _email, value); }
+    public string Code { get => _code; set => SetProperty(ref _code, value); }
+    public string CodeError { get => _codeError; private set => SetProperty(ref _codeError, value); }
+    public bool IsConfirmed => false;
+    public bool IsFormVisible => true;
+    public string DemoCodeHint => "La réinitialisation du mot de passe n’est pas disponible dans ce parcours.";
     public ICommand ConfirmCommand { get; }
     public ICommand BackCommand { get; }
     public ICommand OpenSignInCommand { get; }
-
     public ConfirmPasswordResetViewModel()
     {
-        ConfirmCommand = new Command(Confirm);
+        ConfirmCommand = new Command(() => CodeError = "Le backend ne fournit pas le parcours de confirmation par code utilisé par cet écran.");
         BackCommand = new Command(async () => await Shell.Current.GoToAsync(".."));
         OpenSignInCommand = new Command(async () => await Shell.Current.GoToAsync("//login"));
     }
-
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.TryGetValue("Email", out var email) && email is string value)
-            Email = value;
-    }
-
-    private void Confirm()
-    {
-        CodeError = string.Equals(Code.Trim(), DemoCode, StringComparison.Ordinal)
-            ? string.Empty
-            : "Code incorrect. Utilise le code de démonstration affiché.";
-
-        if (!string.IsNullOrEmpty(CodeError)) return;
-
-        IsConfirmed = true;
+        if (query.TryGetValue("Email", out var email) && email is string value) Email = value;
     }
 }

@@ -34,6 +34,8 @@
                             BorderColor="#E4E7ED" BorderWidth="1" />
                 </HorizontalStackLayout>
 
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#315CEB" HeightRequest="24" />
+                <Label Text="{Binding StatusMessage}" FontSize="11" TextColor="#D94B54" LineBreakMode="WordWrap" />
                 <VerticalStackLayout Spacing="12"
                                      BindableLayout.ItemsSource="{Binding Requests}">
                     <BindableLayout.ItemTemplate>
@@ -67,6 +69,14 @@
                                     <Button IsVisible="{Binding CanReview}" Text="Évaluer ce service" Command="{Binding ReviewCommand}"
                                             CommandParameter="{Binding .}" BackgroundColor="#F2F5FF" TextColor="#315CEB"
                                             FontSize="11" FontAttributes="Bold" CornerRadius="10" HeightRequest="40" />
+                                    <HorizontalStackLayout IsVisible="{Binding CanAcceptOrDecline}" Spacing="8">
+                                        <Button Text="Accepter" Command="{Binding AcceptCommand}" BackgroundColor="#2A9C6A" TextColor="White" FontSize="11" CornerRadius="9" />
+                                        <Button Text="Refuser" Command="{Binding DeclineCommand}" BackgroundColor="#FFF0F0" TextColor="#D94B54" FontSize="11" CornerRadius="9" />
+                                    </HorizontalStackLayout>
+                                    <Button IsVisible="{Binding CanCancel}" Text="Annuler la demande" Command="{Binding CancelCommand}"
+                                            BackgroundColor="#FFF0F0" TextColor="#D94B54" FontSize="11" CornerRadius="9" />
+                                    <Button IsVisible="{Binding CanConfirmCompletion}" Text="Confirmer le service terminé" Command="{Binding CompleteCommand}"
+                                            BackgroundColor="#F2F5FF" TextColor="#315CEB" FontSize="11" CornerRadius="9" />
                                 </VerticalStackLayout>
                             </Border>
                         </DataTemplate>

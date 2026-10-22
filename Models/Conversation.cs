@@ -14,5 +14,8 @@ public sealed record Conversation(
     string Schedule = "Aujourd'hui · 16:00",
     string Location = "Bibliothèque centrale")
 {
+    public Guid Id { get; init; }
+    public Guid OtherParticipantId { get; init; }
+    public bool HasRequestContext => !string.IsNullOrWhiteSpace(Status) || !string.IsNullOrWhiteSpace(Schedule) || !string.IsNullOrWhiteSpace(Location);
     public bool HasUnread => UnreadCount > 0;
 }

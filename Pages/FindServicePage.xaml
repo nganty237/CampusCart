@@ -49,6 +49,8 @@
                     </FlexLayout>
                 </VerticalStackLayout>
 
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#315CEB" HeightRequest="24" />
+                <Label Text="{Binding StatusMessage}" FontSize="11" TextColor="#D94B54" LineBreakMode="WordWrap" />
                 <Grid ColumnDefinitions="*,Auto">
                     <Label Text="{Binding ResultsLabel}" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
                     <Button Grid.Column="1" Text="Réinitialiser" Command="{Binding ResetCommand}"

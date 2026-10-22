@@ -12,10 +12,11 @@ public partial class MainPage : ContentPage
         BindingContext = new HomeViewModel();
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
         ViewModel.RefreshUser();
         ViewModel.RefreshServices();
+        await ViewModel.LoadServicesAsync();
     }
 }

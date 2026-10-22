@@ -23,9 +23,15 @@ public sealed class MyOffersViewModel : BaseViewModel
             OfferManagementStore.CurrentStep = 1;
             await Shell.Current.GoToAsync(nameof(Pages.CreateOfferPage));
         });
-        ToggleOfferCommand = new Command<OfferedService>(offer =>
+        ToggleOfferCommand = new Command<OfferedService>(async offer =>
         {
-            if (offer is not null) offer.IsActive = !offer.IsActive;
+            if (offer is null) return;
+            try
+            {
+                await App.Api.SetListingActiveAsync(offer.Listing.Id, !offer.IsActive);
+                offer.IsActive = !offer.IsActive;
+            }
+            catch (ApiException ex) { await Shell.Current.DisplayAlertAsync("Erreur", ex.Message, "OK"); }
         });
         DeleteOfferCommand = new Command<OfferedService>(async offer =>
         {
@@ -37,7 +43,13 @@ public sealed class MyOffersViewModel : BaseViewModel
                 "Supprimer",
                 "Annuler");
 
-            if (confirmed) Offers.Remove(offer);
+            if (confirmed) await Shell.Current.DisplayAlertAsync("Suppression indisponible", "L’API ne propose pas encore de route de suppression des annonces.", "OK");
+        });
+        EditOfferCommand = new Command<OfferedService>(async offer =>
+        {
+            if (offer is null) return;
+            OfferManagementStore.BeginEdit(offer);
+            await Shell.Current.GoToAsync(nameof(Pages.CreateOfferPage));
         });
         BackToProfileCommand = new Command(async () => await Shell.Current.GoToAsync("//profile"));
         foreach (var offer in Offers) SetOfferCommands(offer);
@@ -50,8 +62,25 @@ public sealed class MyOffersViewModel : BaseViewModel
         };
     }
 
-    public void Refresh()
+    public async void Refresh()
     {
+        try
+        {
+            var remote = await App.Api.GetMyListingsAsync();
+            Offers.Clear();
+            foreach (var item in remote)
+            {
+                var listing = ApiUiMapper.ToListing(item);
+                var offer = new OfferedService
+                {
+                    Title = item.Title, Category = item.Category, Price = listing.Price, Unit = item.Unit,
+                    Description = item.Description, Availability = item.Location, Listing = listing,
+                    IsActive = item.IsActive
+                };
+                Offers.Add(offer);
+            }
+        }
+        catch (ApiException ex) { await Shell.Current.DisplayAlertAsync("Mes annonces", ex.Message, "OK"); }
         OnPropertyChanged(nameof(HasOffers));
         OnPropertyChanged(nameof(HasNoOffers));
         OnPropertyChanged(nameof(OfferCountLabel));
@@ -61,5 +90,8 @@ public sealed class MyOffersViewModel : BaseViewModel
     {
         offer.ToggleCommand = ToggleOfferCommand;
         offer.DeleteCommand = DeleteOfferCommand;
+        offer.EditCommand = EditOfferCommand;
     }
+
+    public ICommand EditOfferCommand { get; }
 }
