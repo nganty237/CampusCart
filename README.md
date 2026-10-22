@@ -26,3 +26,22 @@ Ouvre ensuite le projet dans Visual Studio ou déploie l’application sur un é
 - `Resources/` : images, polices et styles
 
 Les offres et autres données du prototype sont conservées en mémoire pendant la session.
+
+## API backend
+
+L'API ASP.NET Core est dans CampusCart.Api. Elle cible .NET 10 et utilise PostgreSQL avec Entity Framework Core.
+
+Pour démarrer PostgreSQL en local :
+
+~~~powershell
+docker compose up -d postgres
+$env:ConnectionStrings__CampusCart = "Host=localhost;Port=5433;Database=campuscart_dev;Username=campuscart_dev;Password=campuscart_dev_only"
+dotnet tool install --global dotnet-ef --version 10.0.13
+dotnet ef migrations add InitialCreate --project CampusCart.Api
+dotnet ef database update --project CampusCart.Api
+dotnet run --project CampusCart.Api
+~~~
+
+Les identifiants du conteneur sont réservés au développement local. Les inscriptions acceptent les adresses se terminant par `@enspd.cm`; le code de vérification est visible dans les logs en environnement Development. Les clés de protection sont conservées localement dans `CampusCart.Api/.data-protection-keys`. En production, configure `DataProtection__KeyRingPath` vers un stockage persistant et partagé, ainsi qu'un fournisseur d'e-mail avant de démarrer l'API.
+
+La restauration NuGet et la compilation doivent être exécutées après avoir libéré de l'espace disque; l'environnement a refusé la restauration avec une erreur d'espace insuffisant.

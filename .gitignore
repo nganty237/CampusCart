@@ -1,6 +1,9 @@
 # Build outputs
 bin/
 obj/
+.env
+CampusCart.Api/appsettings.Local.json
+CampusCart.Api/.data-protection-keys/
 
 # User-specific files
 .vs/

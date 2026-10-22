@@ -1,0 +1,47 @@
+@CampusCart.Api_HostAddress = http://localhost:5258
+
+GET {{CampusCart.Api_HostAddress}}/health/live
+Accept: application/json
+
+###
+
+GET {{CampusCart.Api_HostAddress}}/health/ready
+Accept: application/json
+
+###
+
+GET {{CampusCart.Api_HostAddress}}/api/v1/listings?page=1&pageSize=20
+Accept: application/json
+
+###
+
+POST {{CampusCart.Api_HostAddress}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Nadine Tchana",
+  "email": "nadine.tchana@enspd.cm",
+  "password": "CampusCart123"
+}
+
+###
+
+POST {{CampusCart.Api_HostAddress}}/api/v1/auth/confirm-email
+Content-Type: application/json
+
+{
+  "email": "nadine.tchana@enspd.cm",
+  "code": "000000"
+}
+
+###
+
+POST {{CampusCart.Api_HostAddress}}/api/v1/sessions/login
+Content-Type: application/json
+
+{
+  "email": "nadine.tchana@enspd.cm",
+  "password": "CampusCart123"
+}
+
+###

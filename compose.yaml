@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: campuscart-postgres
+    environment:
+      POSTGRES_DB: campuscart_dev
+      POSTGRES_USER: campuscart_dev
+      POSTGRES_PASSWORD: campuscart_dev_only
+    ports:
+      - "5433:5432"
+    volumes:
+      - campuscart_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U campuscart_dev -d campuscart_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  campuscart_postgres_data:
