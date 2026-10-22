@@ -64,6 +64,9 @@
                                                    LineBreakMode="TailTruncation" />
                                         </VerticalStackLayout>
                                     </Grid>
+                                    <Button IsVisible="{Binding CanReview}" Text="Évaluer ce service" Command="{Binding ReviewCommand}"
+                                            CommandParameter="{Binding .}" BackgroundColor="#F2F5FF" TextColor="#315CEB"
+                                            FontSize="11" FontAttributes="Bold" CornerRadius="10" HeightRequest="40" />
                                 </VerticalStackLayout>
                             </Border>
                         </DataTemplate>

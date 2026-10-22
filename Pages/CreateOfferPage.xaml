@@ -135,7 +135,7 @@
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Lieu et disponibilité" FontSize="12" FontAttributes="Bold" TextColor="#343A46" />
                         <Border BackgroundColor="White" Stroke="#E1E5EC" StrokeThickness="1" StrokeShape="RoundRectangle 11" Padding="11,1">
-                            <Entry Text="{Binding Draft.Availability}" Placeholder="Ex. Campus ENPD · En semaine après 16 h"
+                            <Entry Text="{Binding Draft.Availability}" Placeholder="Ex. Campus ENSPD · En semaine après 16 h"
                                    FontSize="12" TextColor="#343A46" PlaceholderColor="#9299A7" />
                         </Border>
                     </VerticalStackLayout>

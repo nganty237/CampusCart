@@ -14,6 +14,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(Pages.FindServicePage), typeof(Pages.FindServicePage));
         Routing.RegisterRoute(nameof(Pages.CreateRequestPage), typeof(Pages.CreateRequestPage));
         Routing.RegisterRoute(nameof(Pages.RequestConfirmationPage), typeof(Pages.RequestConfirmationPage));
+        Routing.RegisterRoute(nameof(Pages.RatingPage), typeof(Pages.RatingPage));
         Routing.RegisterRoute(nameof(Pages.CreateOfferPage), typeof(Pages.CreateOfferPage));
         Routing.RegisterRoute(nameof(Pages.OfferPublishedPage), typeof(Pages.OfferPublishedPage));
         Routing.RegisterRoute(nameof(Pages.ChatPage), typeof(Pages.ChatPage));

@@ -19,7 +19,7 @@
                             Padding="0" Command="{Binding BackCommand}" />
                     <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
                         <Label Text="Trouver un service" FontSize="20" FontAttributes="Bold" TextColor="#171B24" />
-                        <Label Text="Sur le campus ENPD" FontSize="11" TextColor="#818897" />
+                        <Label Text="Sur le campus ENSPD" FontSize="11" TextColor="#818897" />
                     </VerticalStackLayout>
                 </Grid>
 

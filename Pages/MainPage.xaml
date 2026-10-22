@@ -22,7 +22,7 @@
                         <HorizontalStackLayout Spacing="5">
                             <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.LocationOn}"
                                               IconSize="14" IconColor="#788397" WidthRequest="16" HeightRequest="16" />
-                            <Label Text="Campus ENPD · Douala" FontSize="11" TextColor="#788397" />
+                            <Label Text="Campus ENSPD · Douala" FontSize="11" TextColor="#788397" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                     <Grid Grid.Column="1" ColumnDefinitions="42,42" ColumnSpacing="9" VerticalOptions="Center">

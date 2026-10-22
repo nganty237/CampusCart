@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace CampusCart.Models;
 
 public sealed record ServiceRequest(
@@ -11,4 +13,8 @@ public sealed record ServiceRequest(
     Color StatusColor,
     string RequestedTime = "",
     string HandoverLocation = "",
-    string Message = "");
+    string Message = "")
+{
+    public ICommand? ReviewCommand { get; set; }
+    public bool CanReview => Status.Equals("Terminée", StringComparison.OrdinalIgnoreCase);
+}

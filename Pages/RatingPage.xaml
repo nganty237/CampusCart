@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CampusCart.ViewModels"
+             x:Class="CampusCart.Pages.RatingPage"
+             x:DataType="vm:RatingViewModel"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#F7F8FC">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout MaximumWidthRequest="480" HorizontalOptions="Center"
+                                 Padding="20,24,20,24" Spacing="20">
+                <Grid ColumnDefinitions="42,*" ColumnSpacing="10">
+                    <Button Text="‹" Command="{Binding BackCommand}" BackgroundColor="White"
+                            TextColor="#202B43" FontSize="28" HeightRequest="40" WidthRequest="40"
+                            Padding="0" CornerRadius="12" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="Évaluer le service" FontSize="21" FontAttributes="Bold" TextColor="#171B24" />
+                        <Label Text="Partage ton expérience avec les étudiants." FontSize="12" TextColor="#818897" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16" Padding="16">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="SERVICE TERMINÉ" FontSize="10" FontAttributes="Bold" TextColor="#315CEB" />
+                        <Label Text="{Binding Request.Title}" FontSize="16" FontAttributes="Bold" TextColor="#20232B" />
+                        <Label Text="{Binding Request.ContactName, StringFormat='Proposé par {0}'}" FontSize="12" TextColor="#818897" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16" Padding="18">
+                    <VerticalStackLayout Spacing="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Quelle note lui donnes-tu ?" FontSize="16" FontAttributes="Bold" TextColor="#20232B" />
+                            <Label Text="Appuie sur une étoile pour choisir ta note." FontSize="11" TextColor="#818897" />
+                        </VerticalStackLayout>
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                            <Button Text="★" Command="{Binding Rate1Command}" TextColor="{Binding Star1Color}" BackgroundColor="Transparent" FontSize="38" Padding="2,0" WidthRequest="52" HeightRequest="58"
+                                    SemanticProperties.Description="1 étoile sur 5" SemanticProperties.Hint="Choisir la note minimale." />
+                            <Button Text="★" Command="{Binding Rate2Command}" TextColor="{Binding Star2Color}" BackgroundColor="Transparent" FontSize="38" Padding="2,0" WidthRequest="52" HeightRequest="58"
+                                    SemanticProperties.Description="2 étoiles sur 5" SemanticProperties.Hint="Choisir une note de 2 sur 5." />
+                            <Button Text="★" Command="{Binding Rate3Command}" TextColor="{Binding Star3Color}" BackgroundColor="Transparent" FontSize="38" Padding="2,0" WidthRequest="52" HeightRequest="58"
+                                    SemanticProperties.Description="3 étoiles sur 5" SemanticProperties.Hint="Choisir une note de 3 sur 5." />
+                            <Button Text="★" Command="{Binding Rate4Command}" TextColor="{Binding Star4Color}" BackgroundColor="Transparent" FontSize="38" Padding="2,0" WidthRequest="52" HeightRequest="58"
+                                    SemanticProperties.Description="4 étoiles sur 5" SemanticProperties.Hint="Choisir une note de 4 sur 5." />
+                            <Button Text="★" Command="{Binding Rate5Command}" TextColor="{Binding Star5Color}" BackgroundColor="Transparent" FontSize="38" Padding="2,0" WidthRequest="52" HeightRequest="58"
+                                    SemanticProperties.Description="5 étoiles sur 5" SemanticProperties.Hint="Choisir la note maximale." />
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding RatingLabel}" FontSize="13" FontAttributes="Bold" TextColor="#48536A"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16" Padding="16">
+                    <VerticalStackLayout Spacing="9">
+                        <Label Text="Un commentaire ? (facultatif)" FontSize="14" FontAttributes="Bold" TextColor="#20232B" />
+                        <Editor Text="{Binding Comment}" Placeholder="Décris ce qui s'est bien passé…"
+                                AutoSize="TextChanges" MinimumHeightRequest="112" MaxLength="500"
+                                BackgroundColor="#F7F8FC" TextColor="#343A46" PlaceholderColor="#A0A7B4"
+                                FontSize="13" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="{Binding Message}" FontSize="12" TextColor="#315CEB"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#E6E9EF" StrokeThickness="1" Padding="18,12">
+            <Button MaximumWidthRequest="444" HorizontalOptions="Center" Text="{Binding SubmitLabel}"
+                    Command="{Binding SubmitCommand}" BackgroundColor="#315CEB" TextColor="White"
+                    FontSize="13" FontAttributes="Bold" CornerRadius="12" HeightRequest="48" />
+        </Border>
+    </Grid>
+</ContentPage>

@@ -32,7 +32,7 @@
                 <Label Text="E-mail universitaire" FontSize="12" TextColor="#292D36" />
                 <Entry Text="{Binding Email}" Placeholder="nom.prenom@etudiant.universite.cm" Keyboard="Email"
                        BackgroundColor="White" TextColor="#242833" PlaceholderColor="#9AA0AB" HeightRequest="46" />
-                <Label Text="Un lien de v&#x00E9;rification sera envoy&#x00E9; &#x00E0; cette adresse." FontSize="10" TextColor="#858B98" />
+                <Label Text="Saisis une adresse universitaire valide pour ton compte CampusCart." FontSize="10" TextColor="#858B98" />
                 <Label Text="{Binding EmailError}" FontSize="10" TextColor="#E5484D" />
             </VerticalStackLayout>
 

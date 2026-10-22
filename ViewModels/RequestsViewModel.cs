@@ -27,6 +27,7 @@ public sealed class RequestsViewModel : BaseViewModel
     public Color ReceivedTabTextColor => _showSent ? Color.FromArgb("#727D91") : Colors.White;
     public ICommand ShowSentCommand { get; }
     public ICommand ShowReceivedCommand { get; }
+    public ICommand ReviewRequestCommand { get; }
 
     public RequestsViewModel()
     {
@@ -34,6 +35,12 @@ public sealed class RequestsViewModel : BaseViewModel
 
         ShowSentCommand = new Command(() => SetTab(true));
         ShowReceivedCommand = new Command(() => SetTab(false));
+        ReviewRequestCommand = new Command<ServiceRequest>(async request =>
+        {
+            if (request is null || !request.CanReview) return;
+            RequestFlowStore.SelectRequestForReview(request);
+            await Shell.Current.GoToAsync(nameof(Pages.RatingPage));
+        });
         LoadRequests();
     }
 
@@ -64,6 +71,10 @@ public sealed class RequestsViewModel : BaseViewModel
     {
         Requests.Clear();
         var requests = _showSent ? RequestFlowStore.SentRequests : _receivedRequests;
-        foreach (var request in requests) Requests.Add(request);
+        foreach (var request in requests)
+        {
+            request.ReviewCommand = ReviewRequestCommand;
+            Requests.Add(request);
+        }
     }
 }
