@@ -10,7 +10,8 @@ public sealed record EmailDto(string Email);
 public sealed record LoginRequestDto(string Email, string Password);
 public sealed record TokenResponseDto(string TokenType, string AccessToken, int ExpiresIn, string RefreshToken);
 public sealed record RefreshTokenRequestDto(string RefreshToken);
-public sealed record ProfileDto(Guid Id, string FullName, string Email, bool EmailConfirmed);
+public sealed record ProfileDto(Guid Id, string FullName, string Email, bool EmailConfirmed,
+    int CompletedServicesCount, double? AverageRating, int ReviewCount);
 public sealed record UpdateProfileDto(string FullName);
 public sealed record ListingDto(Guid Id, string Title, string Category, string Description, int PriceXaf,
     string Unit, string Location, DateTimeOffset CreatedAtUtc, string ProviderFullName,

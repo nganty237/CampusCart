@@ -36,21 +36,28 @@
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
                     <Border BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="14">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="12" FontSize="20" FontAttributes="Bold" TextColor="#315CEB" />
+                            <Label Text="{Binding CompletedServicesLabel}" FontSize="20" FontAttributes="Bold" TextColor="#315CEB" />
                             <Label Text="Services réalisés" FontSize="10" TextColor="#7A8599" />
                         </VerticalStackLayout>
                     </Border>
                     <Border Grid.Column="1" BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="14">
                         <VerticalStackLayout Spacing="4">
                             <HorizontalStackLayout Spacing="5">
-                                <Label Text="4,8" FontSize="20" FontAttributes="Bold" TextColor="#315CEB" />
+                                <Label Text="{Binding AverageRatingLabel}" FontSize="20" FontAttributes="Bold" TextColor="#315CEB" />
                                 <controls:AppIcon Glyph="{x:Static icons:MaterialDesignIconsOutlinedRegular.Star}"
                                                   IconSize="17" IconColor="#E6A72E" />
                             </HorizontalStackLayout>
                             <Label Text="Note moyenne" FontSize="10" TextColor="#7A8599" />
+                            <Label Text="{Binding ReviewCountLabel}" FontSize="9" TextColor="#9AA3B3" />
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
+                <HorizontalStackLayout Spacing="7" HorizontalOptions="Center">
+                    <ActivityIndicator IsRunning="{Binding IsLoadingStats}" IsVisible="{Binding IsLoadingStats}"
+                                       Color="#315CEB" HeightRequest="18" WidthRequest="18" />
+                    <Label Text="{Binding StatsMessage}" FontSize="10" TextColor="#7A8599"
+                           HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
                 <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
                         <Label Text="Mon compte" FontSize="17" FontAttributes="Bold" TextColor="#17223A"

@@ -1,5 +1,6 @@
 using CampusCart.Api.Modules.Auth;
 using CampusCart.Api.Infrastructure.Persistence;
+using CampusCart.Api.Modules.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ public sealed class ProfilesController(
         var user = await userManager.GetUserAsync(User);
         return user is null
             ? Unauthorized()
-            : Ok(new ProfileResponse(user.Id, user.FullName, user.Email ?? string.Empty, user.EmailConfirmed));
+            : Ok(await CreateProfileResponseAsync(user, cancellationToken));
     }
 
     [HttpPut("me")]
@@ -56,7 +57,7 @@ public sealed class ProfilesController(
             return ValidationProblem(ModelState);
         }
 
-        return Ok(new ProfileResponse(user.Id, user.FullName, user.Email ?? string.Empty, user.EmailConfirmed));
+        return Ok(await CreateProfileResponseAsync(user, cancellationToken));
     }
 
     [HttpGet("{id:guid}")]
@@ -77,6 +78,34 @@ public sealed class ProfilesController(
 
         return profile is null ? NotFound() : Ok(profile);
     }
+
+    private async Task<ProfileResponse> CreateProfileResponseAsync(
+        CampusCartUser user,
+        CancellationToken cancellationToken)
+    {
+        var stats = await db.Users.AsNoTracking()
+            .Where(profile => profile.Id == user.Id)
+            .Select(profile => new
+            {
+                CompletedServicesCount = db.Requests.Count(request =>
+                    request.ProviderId == profile.Id && request.Status == ServiceRequestStatus.Completed),
+                AverageRating = db.Reviews
+                    .Where(review => review.ProviderId == profile.Id)
+                    .Select(review => (double?)review.Rating)
+                    .Average(),
+                ReviewCount = db.Reviews.Count(review => review.ProviderId == profile.Id)
+            })
+            .SingleAsync(cancellationToken);
+
+        return new ProfileResponse(
+            user.Id,
+            user.FullName,
+            user.Email ?? string.Empty,
+            user.EmailConfirmed,
+            stats.CompletedServicesCount,
+            stats.AverageRating,
+            stats.ReviewCount);
+    }
 }
 
 public sealed record UpdateProfileRequest(
@@ -86,7 +115,10 @@ public sealed record ProfileResponse(
     Guid Id,
     string FullName,
     string Email,
-    bool EmailConfirmed);
+    bool EmailConfirmed,
+    int CompletedServicesCount,
+    double? AverageRating,
+    int ReviewCount);
 
 public sealed record PublicProfileResponse(
     Guid Id,
