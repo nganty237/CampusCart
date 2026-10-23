@@ -43,7 +43,17 @@ public sealed class MyOffersViewModel : BaseViewModel
                 "Supprimer",
                 "Annuler");
 
-            if (confirmed) await Shell.Current.DisplayAlertAsync("Suppression indisponible", "L’API ne propose pas encore de route de suppression des annonces.", "OK");
+            if (!confirmed) return;
+
+            try
+            {
+                await App.Api.DeleteListingAsync(offer.Listing.Id);
+                Offers.Remove(offer);
+            }
+            catch (ApiException ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Suppression impossible", ex.Message, "OK");
+            }
         });
         EditOfferCommand = new Command<OfferedService>(async offer =>
         {

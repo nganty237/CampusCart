@@ -22,7 +22,7 @@ public sealed class ListingsController(
         if (user is null) return Unauthorized();
 
         var listings = await db.Listings.AsNoTracking()
-            .Where(listing => listing.ProviderId == user.Id)
+            .Where(listing => listing.ProviderId == user.Id && !listing.IsDeleted)
             .OrderByDescending(listing => listing.CreatedAtUtc)
             .Select(listing => new MyListingSummary(
                 listing.Id,
@@ -60,7 +60,7 @@ public sealed class ListingsController(
                 Detail = "Page must be at least 1 and pageSize must be between 1 and 50."
             });
 
-        var query = db.Listings.AsNoTracking().Where(listing => listing.IsActive);
+        var query = db.Listings.AsNoTracking().Where(listing => listing.IsActive && !listing.IsDeleted);
         var currentUser = User.Identity?.IsAuthenticated == true
             ? await userManager.GetUserAsync(User)
             : null;
@@ -118,7 +118,7 @@ public sealed class ListingsController(
             ? await userManager.GetUserAsync(User)
             : null;
         var listing = await db.Listings.AsNoTracking()
-            .Where(item => item.Id == id && item.IsActive)
+            .Where(item => item.Id == id && item.IsActive && !item.IsDeleted)
             .Where(item => currentUser == null || item.ProviderId != currentUser.Id)
             .Select(item => new ListingSummary(
                 item.Id,
@@ -176,7 +176,7 @@ public sealed class ListingsController(
         if (user is null) return Unauthorized();
 
         var listing = await db.Listings.SingleOrDefaultAsync(
-            item => item.Id == id,
+            item => item.Id == id && !item.IsDeleted,
             cancellationToken);
         if (listing is null) return NotFound();
         if (listing.ProviderId != user.Id) return Forbid();
@@ -203,12 +203,29 @@ public sealed class ListingsController(
         if (user is null) return Unauthorized();
 
         var listing = await db.Listings.SingleOrDefaultAsync(
-            item => item.Id == id,
+            item => item.Id == id && !item.IsDeleted,
             cancellationToken);
         if (listing is null) return NotFound();
         if (listing.ProviderId != user.Id) return Forbid();
 
         listing.IsActive = request.IsActive;
+        await db.SaveChangesAsync(cancellationToken);
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [Authorize]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        var user = await userManager.GetUserAsync(User);
+        if (user is null) return Unauthorized();
+
+        var listing = await db.Listings.SingleOrDefaultAsync(item => item.Id == id, cancellationToken);
+        if (listing is null) return NotFound();
+        if (listing.ProviderId != user.Id) return Forbid();
+
+        listing.IsActive = false;
+        listing.IsDeleted = true;
         await db.SaveChangesAsync(cancellationToken);
         return NoContent();
     }

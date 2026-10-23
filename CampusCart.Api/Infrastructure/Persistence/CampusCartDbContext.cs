@@ -51,6 +51,7 @@ public sealed class CampusCartDbContext(
             entity.Property(listing => listing.Unit).HasMaxLength(80).IsRequired();
             entity.Property(listing => listing.Location).HasMaxLength(120).IsRequired();
             entity.Property(listing => listing.PriceXaf).HasColumnName("price_xaf");
+            entity.Property(listing => listing.IsDeleted).HasDefaultValue(false);
             entity.HasIndex(listing => new { listing.IsActive, listing.CreatedAtUtc });
             entity.HasOne(listing => listing.Provider)
                 .WithMany()

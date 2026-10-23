@@ -107,7 +107,7 @@ public sealed class RequestsController(
         }
 
         var listing = await db.Listings.SingleOrDefaultAsync(
-            item => item.Id == request.ListingId && item.IsActive,
+            item => item.Id == request.ListingId && item.IsActive && !item.IsDeleted,
             cancellationToken);
         if (listing is null) return NotFound();
         if (listing.ProviderId == user.Id)

@@ -41,6 +41,7 @@ public sealed class CampusCartApiService(ApiClient api, SecureTokenStore tokens)
     public Task<ListingDto> UpdateListingAsync(Guid id, string title, string category, string description, int price, string unit, string location) =>
         api.PutAsync<ListingDto>($"api/v1/listings/{id}", new ListingRequestDto(title, category, description, price, unit, location));
     public Task SetListingActiveAsync(Guid id, bool active) => api.PatchAsync($"api/v1/listings/{id}/active", new SetListingActiveDto(active));
+    public Task DeleteListingAsync(Guid id) => api.DeleteAsync($"api/v1/listings/{id}", true);
     public Task<PagedDto<RequestDto>> GetRequestsAsync(bool sent) => api.GetAsync<PagedDto<RequestDto>>($"api/v1/requests?direction={(sent ? "sent" : "received")}&page=1&pageSize=50", true);
     public Task<RequestDto> CreateRequestAsync(CreateRequestDto request) => api.PostAsync<RequestDto>("api/v1/requests", request, true);
     public Task<System.Text.Json.JsonElement> TransitionRequestAsync(Guid id, string action) => api.PostAsync<System.Text.Json.JsonElement>($"api/v1/requests/{id}/{action}", new { }, true);

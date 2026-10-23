@@ -44,7 +44,7 @@
                             <Border BackgroundColor="White" Stroke="#E4E7ED" StrokeThickness="1"
                                     StrokeShape="RoundRectangle 15" Padding="14">
                                 <VerticalStackLayout Spacing="10">
-                                    <Grid ColumnDefinitions="*,Auto,36" ColumnSpacing="6">
+                                    <Grid ColumnDefinitions="*,Auto,36,36" ColumnSpacing="6">
                                         <Label Text="{Binding Category}" FontSize="10" FontAttributes="Bold" TextColor="#65718A" />
                                         <Border Grid.Column="1" BackgroundColor="#F3F5F8" StrokeThickness="0"
                                                 StrokeShape="RoundRectangle 14" Padding="9,4">
@@ -54,6 +54,11 @@
                                         <Button Grid.Column="2" Text="&#xE3C9;" FontFamily="MaterialDesignIconsOutlined"
                                                 Command="{Binding EditCommand}" CommandParameter="{Binding .}"
                                                 BackgroundColor="#F2F5FF" TextColor="#315CEB" FontSize="18"
+                                                HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="10"
+                                                VerticalOptions="Center" HorizontalOptions="End" />
+                                        <Button Grid.Column="3" Text="&#xE872;" FontFamily="MaterialDesignIconsOutlined"
+                                                Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"
+                                                BackgroundColor="#FFF0F0" TextColor="#D94B54" FontSize="18"
                                                 HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="10"
                                                 VerticalOptions="Center" HorizontalOptions="End" />
                                     </Grid>

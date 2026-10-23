@@ -37,8 +37,8 @@ Pour démarrer PostgreSQL en local :
 docker compose up -d postgres
 $env:ConnectionStrings__CampusCart = "Host=localhost;Port=5433;Database=campuscart_dev;Username=campuscart_dev;Password=campuscart_dev_only"
 dotnet tool install --global dotnet-ef --version 10.0.13
-dotnet ef migrations add InitialCreate --project CampusCart.Api
-dotnet ef database update --project CampusCart.Api
+dotnet ef migrations add InitialCreate --project CampusCart.Api\CampusCart.Api.csproj --startup-project CampusCart.Api\CampusCart.Api.csproj --framework net10.0
+dotnet ef database update --project CampusCart.Api\CampusCart.Api.csproj --startup-project CampusCart.Api\CampusCart.Api.csproj --framework net10.0
 dotnet run --project CampusCart.Api
 ~~~
 
