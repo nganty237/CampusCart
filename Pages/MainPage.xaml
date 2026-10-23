@@ -144,8 +144,8 @@
                                         </VerticalStackLayout>
                                         <Button Grid.Column="2" Text="{Binding FavoriteGlyph}"
                                                 FontFamily="MaterialDesignIconsOutlined" FontSize="18" TextColor="#315CEB"
-                                                BackgroundColor="#F4F6FA" HeightRequest="36" WidthRequest="36"
-                                                Padding="0" CornerRadius="18" VerticalOptions="Center"
+                                                BackgroundColor="Transparent" BorderWidth="0" HeightRequest="36" WidthRequest="36"
+                                                Padding="0" CornerRadius="0" VerticalOptions="Center"
                                                 Command="{Binding FavoriteCommand}" CommandParameter="{Binding .}" />
                                         <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ColumnDefinitions="*,Auto" ColumnSpacing="8" Margin="0,8,0,0">
                                             <Label Text="{Binding Category}" FontSize="9" FontAttributes="Bold"

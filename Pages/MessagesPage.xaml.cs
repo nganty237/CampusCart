@@ -13,5 +13,12 @@ public partial class MessagesPage : ContentPage
     {
         base.OnAppearing();
         await ViewModel.LoadConversationsAsync();
+        ViewModel.StartAutoRefresh();
+    }
+
+    protected override void OnDisappearing()
+    {
+        ViewModel.StopAutoRefresh();
+        base.OnDisappearing();
     }
 }

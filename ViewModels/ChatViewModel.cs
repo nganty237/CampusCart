@@ -7,6 +7,10 @@ namespace CampusCart.ViewModels;
 
 public sealed class ChatViewModel : BaseViewModel, IQueryAttributable
 {
+    private static readonly TimeSpan MessageRefreshInterval = TimeSpan.FromSeconds(2);
+    private readonly HashSet<Guid> _knownMessageIds = [];
+    private readonly SemaphoreSlim _messageRefreshLock = new(1, 1);
+    private CancellationTokenSource? _pollingCancellation;
     private Conversation? _conversation;
     private string _draftMessage = string.Empty;
     private string _statusMessage = string.Empty;
@@ -44,21 +48,49 @@ public sealed class ChatViewModel : BaseViewModel, IQueryAttributable
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (!query.TryGetValue("Conversation", out var value) || value is not Conversation conversation) return;
+        StopPolling();
         Conversation = conversation;
-        _ = LoadMessagesAsync(conversation);
+        Messages.Clear();
+        _knownMessageIds.Clear();
+        _pollingCancellation = new CancellationTokenSource();
+        _ = PollConversationAsync(conversation, _pollingCancellation.Token);
     }
 
-    private async Task LoadMessagesAsync(Conversation conversation)
+    public void StopPolling()
     {
-        Messages.Clear();
+        _pollingCancellation?.Cancel();
+        _pollingCancellation = null;
+    }
+
+    private async Task PollConversationAsync(Conversation conversation, CancellationToken cancellationToken)
+    {
+        await RefreshMessagesAsync(conversation, cancellationToken);
+        if (cancellationToken.IsCancellationRequested) return;
+
+        using var timer = new PeriodicTimer(MessageRefreshInterval);
         try
         {
-            var items = await App.Api.GetMessagesAsync(conversation.Id);
-            foreach (var item in items)
-                Messages.Add(new ChatMessage(item.Body, item.CreatedAtUtc.ToLocalTime().ToString("HH:mm"),
-                    item.SenderId == AppSession.UserId, SenderName: item.SenderFullName));
-            StatusMessage = string.Empty;
+            while (await timer.WaitForNextTickAsync(cancellationToken))
+                await RefreshMessagesAsync(conversation, cancellationToken);
         }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { }
+    }
+
+    private async Task RefreshMessagesAsync(Conversation conversation, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _messageRefreshLock.WaitAsync(cancellationToken);
+            try
+            {
+                var items = await App.Api.GetMessagesAsync(conversation.Id, cancellationToken);
+                foreach (var item in items)
+                    AddMessage(item);
+                StatusMessage = string.Empty;
+            }
+            finally { _messageRefreshLock.Release(); }
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { }
         catch (ApiException ex) { StatusMessage = ex.Message; }
     }
 
@@ -69,10 +101,16 @@ public sealed class ChatViewModel : BaseViewModel, IQueryAttributable
         try
         {
             var item = await App.Api.SendMessageAsync(Conversation.Id, text);
-            Messages.Add(new ChatMessage(item.Body, item.CreatedAtUtc.ToLocalTime().ToString("HH:mm"), true,
-                SenderName: item.SenderFullName));
+            AddMessage(item);
             DraftMessage = string.Empty; StatusMessage = string.Empty;
         }
         catch (ApiException ex) { StatusMessage = ex.Message; }
+    }
+
+    private void AddMessage(MessageDto item)
+    {
+        if (!_knownMessageIds.Add(item.Id)) return;
+        Messages.Add(new ChatMessage(item.Body, item.CreatedAtUtc.ToLocalTime().ToString("HH:mm"),
+            item.SenderId == AppSession.UserId, SenderName: item.SenderFullName));
     }
 }

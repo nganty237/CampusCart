@@ -45,8 +45,10 @@ public sealed class CampusCartApiService(ApiClient api, SecureTokenStore tokens)
     public Task<PagedDto<RequestDto>> GetRequestsAsync(bool sent) => api.GetAsync<PagedDto<RequestDto>>($"api/v1/requests?direction={(sent ? "sent" : "received")}&page=1&pageSize=50", true);
     public Task<RequestDto> CreateRequestAsync(CreateRequestDto request) => api.PostAsync<RequestDto>("api/v1/requests", request, true);
     public Task<System.Text.Json.JsonElement> TransitionRequestAsync(Guid id, string action) => api.PostAsync<System.Text.Json.JsonElement>($"api/v1/requests/{id}/{action}", new { }, true);
-    public Task<List<ConversationDto>> GetConversationsAsync() => api.GetAsync<List<ConversationDto>>("api/v1/conversations", true);
-    public Task<List<MessageDto>> GetMessagesAsync(Guid conversationId) => api.GetAsync<List<MessageDto>>($"api/v1/conversations/{conversationId}/messages?page=1&pageSize=100", true);
+    public Task<List<ConversationDto>> GetConversationsAsync(CancellationToken ct = default) =>
+        api.GetAsync<List<ConversationDto>>("api/v1/conversations", true, ct);
+    public Task<List<MessageDto>> GetMessagesAsync(Guid conversationId, CancellationToken ct = default) =>
+        api.GetAsync<List<MessageDto>>($"api/v1/conversations/{conversationId}/messages?page=1&pageSize=100", true, ct);
     public Task<MessageDto> SendMessageAsync(Guid conversationId, string body) => api.PostAsync<MessageDto>($"api/v1/conversations/{conversationId}/messages", new SendMessageDto(body), true);
     public Task<ReviewDto> CreateReviewAsync(Guid requestId, int rating, string? comment) => api.PostAsync<ReviewDto>("api/v1/reviews", new CreateReviewDto(requestId, rating, comment), true);
     public Task<ReviewsPageDto> GetReviewsAsync(Guid providerId) => api.GetAsync<ReviewsPageDto>($"api/v1/reviews/providers/{providerId}?page=1&pageSize=50");

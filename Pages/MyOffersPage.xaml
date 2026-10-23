@@ -46,20 +46,20 @@
                                 <VerticalStackLayout Spacing="10">
                                     <Grid ColumnDefinitions="*,Auto,36,36" ColumnSpacing="6">
                                         <Label Text="{Binding Category}" FontSize="10" FontAttributes="Bold" TextColor="#65718A" />
-                                        <Border Grid.Column="1" BackgroundColor="#F3F5F8" StrokeThickness="0"
-                                                StrokeShape="RoundRectangle 14" Padding="9,4">
+                                        <Border Grid.Column="1" BackgroundColor="Transparent" StrokeThickness="0"
+                                                Padding="0">
                                             <Label Text="{Binding Status}" FontSize="10" FontAttributes="Bold"
                                                    TextColor="{Binding StatusColor}" />
                                         </Border>
                                         <Button Grid.Column="2" Text="&#xE3C9;" FontFamily="MaterialDesignIconsOutlined"
                                                 Command="{Binding EditCommand}" CommandParameter="{Binding .}"
-                                                BackgroundColor="#F2F5FF" TextColor="#315CEB" FontSize="18"
-                                                HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="10"
+                                                BackgroundColor="Transparent" BorderWidth="0" TextColor="#315CEB" FontSize="18"
+                                                HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="0"
                                                 VerticalOptions="Center" HorizontalOptions="End" />
                                         <Button Grid.Column="3" Text="&#xE872;" FontFamily="MaterialDesignIconsOutlined"
                                                 Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"
-                                                BackgroundColor="#FFF0F0" TextColor="#D94B54" FontSize="18"
-                                                HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="10"
+                                                BackgroundColor="Transparent" BorderWidth="0" TextColor="#D94B54" FontSize="18"
+                                                HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="0"
                                                 VerticalOptions="Center" HorizontalOptions="End" />
                                     </Grid>
                                     <Label Text="{Binding Title}" FontSize="15" FontAttributes="Bold" TextColor="#20232B" />
@@ -72,8 +72,8 @@
                                                    LineBreakMode="TailTruncation" />
                                         </VerticalStackLayout>
                                         <Button Grid.Column="1" Text="{Binding ActionLabel}" Command="{Binding ToggleCommand}"
-                                                CommandParameter="{Binding .}" BackgroundColor="#F2F5FF" TextColor="#315CEB"
-                                                FontSize="10" FontAttributes="Bold" CornerRadius="9" Padding="11,0"
+                                                CommandParameter="{Binding .}" BackgroundColor="Transparent" BorderWidth="0" TextColor="#315CEB"
+                                                FontSize="10" FontAttributes="Bold" CornerRadius="0" Padding="11,0"
                                                 HeightRequest="36" VerticalOptions="Center" />
                                     </Grid>
                                 </VerticalStackLayout>

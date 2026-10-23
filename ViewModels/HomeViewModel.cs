@@ -74,9 +74,12 @@ public sealed class HomeViewModel : BaseViewModel
 
     public void RefreshServices()
     {
-        var allServices = _seedServices.Concat(OfferManagementStore.MyOffers
+        var allServices = OfferManagementStore.MyOffers
             .Where(offer => offer.IsActive)
-            .Select(offer => offer.Listing));
+            .Select(offer => offer.Listing)
+            .Concat(_seedServices)
+            .GroupBy(service => service.Id)
+            .Select(group => group.First());
         var query = SearchText.Trim();
         var matches = string.IsNullOrWhiteSpace(query)
             ? allServices

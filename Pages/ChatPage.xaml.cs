@@ -9,4 +9,11 @@ public partial class ChatPage : ContentPage
         InitializeComponent();
         BindingContext = new ChatViewModel();
     }
+
+    protected override void OnDisappearing()
+    {
+        if (BindingContext is ChatViewModel viewModel)
+            viewModel.StopPolling();
+        base.OnDisappearing();
+    }
 }

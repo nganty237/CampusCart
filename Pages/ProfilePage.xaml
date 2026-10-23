@@ -37,7 +37,7 @@
                     <Border BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="14">
                         <VerticalStackLayout Spacing="4">
                             <Label Text="{Binding CompletedServicesLabel}" FontSize="20" FontAttributes="Bold" TextColor="#315CEB" />
-                            <Label Text="Services réalisés" FontSize="10" TextColor="#7A8599" />
+                            <Label Text="Prestations terminées" FontSize="10" TextColor="#7A8599" />
                         </VerticalStackLayout>
                     </Border>
                     <Border Grid.Column="1" BackgroundColor="White" Stroke="#E8ECF3" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="14">
