@@ -24,11 +24,12 @@ public sealed record ListingRequestDto(string Title, string Category, string Des
 public sealed record SetListingActiveDto(bool IsActive);
 public sealed record CreateRequestDto(Guid ListingId, DateTimeOffset RequestedForUtc, string HandoverLocation, string Message);
 public sealed record RequestDto(Guid Id, Guid ListingId, string ListingTitle, Guid RequesterId, Guid ProviderId,
+    string RequesterFullName, string ProviderFullName,
     int Status, int PriceXaf, DateTimeOffset RequestedForUtc, DateTimeOffset CreatedAtUtc,
     string HandoverLocation, string Message);
 public sealed record ConversationDto(Guid Id, Guid RequestId, string ListingTitle, Guid OtherParticipantId,
-    DateTimeOffset UpdatedAtUtc, string? LastMessage);
-public sealed record MessageDto(Guid Id, Guid SenderId, string Body, DateTimeOffset CreatedAtUtc, DateTimeOffset? ReadAtUtc);
+    string OtherParticipantFullName, DateTimeOffset UpdatedAtUtc, string? LastMessage);
+public sealed record MessageDto(Guid Id, Guid SenderId, string SenderFullName, string Body, DateTimeOffset CreatedAtUtc, DateTimeOffset? ReadAtUtc);
 public sealed record SendMessageDto(string Body);
 public sealed record CreateReviewDto(Guid RequestId, int Rating, string? Comment);
 public sealed record ReviewDto(Guid Id, Guid RequestId, Guid ProviderId, int Rating, string? Comment, DateTimeOffset CreatedAtUtc);

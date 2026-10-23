@@ -61,6 +61,11 @@ public sealed class ListingsController(
             });
 
         var query = db.Listings.AsNoTracking().Where(listing => listing.IsActive);
+        var currentUser = User.Identity?.IsAuthenticated == true
+            ? await userManager.GetUserAsync(User)
+            : null;
+        if (currentUser is not null)
+            query = query.Where(listing => listing.ProviderId != currentUser.Id);
         if (!string.IsNullOrWhiteSpace(search))
         {
             var term = search.Trim();
@@ -109,8 +114,12 @@ public sealed class ListingsController(
         Guid id,
         CancellationToken cancellationToken)
     {
+        var currentUser = User.Identity?.IsAuthenticated == true
+            ? await userManager.GetUserAsync(User)
+            : null;
         var listing = await db.Listings.AsNoTracking()
             .Where(item => item.Id == id && item.IsActive)
+            .Where(item => currentUser == null || item.ProviderId != currentUser.Id)
             .Select(item => new ListingSummary(
                 item.Id,
                 item.Title,

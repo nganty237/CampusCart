@@ -55,7 +55,8 @@ public sealed class ChatViewModel : BaseViewModel, IQueryAttributable
         {
             var items = await App.Api.GetMessagesAsync(conversation.Id);
             foreach (var item in items)
-                Messages.Add(new ChatMessage(item.Body, item.CreatedAtUtc.ToLocalTime().ToString("HH:mm"), item.SenderId == AppSession.UserId));
+                Messages.Add(new ChatMessage(item.Body, item.CreatedAtUtc.ToLocalTime().ToString("HH:mm"),
+                    item.SenderId == AppSession.UserId, SenderName: item.SenderFullName));
             StatusMessage = string.Empty;
         }
         catch (ApiException ex) { StatusMessage = ex.Message; }
@@ -68,7 +69,8 @@ public sealed class ChatViewModel : BaseViewModel, IQueryAttributable
         try
         {
             var item = await App.Api.SendMessageAsync(Conversation.Id, text);
-            Messages.Add(new ChatMessage(item.Body, item.CreatedAtUtc.ToLocalTime().ToString("HH:mm"), true));
+            Messages.Add(new ChatMessage(item.Body, item.CreatedAtUtc.ToLocalTime().ToString("HH:mm"), true,
+                SenderName: item.SenderFullName));
             DraftMessage = string.Empty; StatusMessage = string.Empty;
         }
         catch (ApiException ex) { StatusMessage = ex.Message; }

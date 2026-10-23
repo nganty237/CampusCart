@@ -34,6 +34,11 @@ public sealed class ConversationsController(
                 conversation.Request.RequesterId == user.Id
                     ? conversation.Request.ProviderId
                     : conversation.Request.RequesterId,
+                db.Users.Where(participant => participant.Id ==
+                        (conversation.Request.RequesterId == user.Id
+                            ? conversation.Request.ProviderId
+                            : conversation.Request.RequesterId))
+                    .Select(participant => participant.FullName).FirstOrDefault() ?? string.Empty,
                 conversation.UpdatedAtUtc,
                 conversation.Messages
                     .OrderByDescending(message => message.CreatedAtUtc)
@@ -71,6 +76,8 @@ public sealed class ConversationsController(
             .Select(message => new ConversationMessageResponse(
                 message.Id,
                 message.SenderId,
+                db.Users.Where(sender => sender.Id == message.SenderId)
+                    .Select(sender => sender.FullName).FirstOrDefault() ?? string.Empty,
                 message.Body,
                 message.CreatedAtUtc,
                 message.ReadAtUtc))
@@ -125,6 +132,7 @@ public sealed class ConversationsController(
             new ConversationMessageResponse(
                 message.Id,
                 message.SenderId,
+                user.FullName,
                 message.Body,
                 message.CreatedAtUtc,
                 message.ReadAtUtc));
@@ -139,12 +147,14 @@ public sealed record ConversationSummary(
     Guid RequestId,
     string ListingTitle,
     Guid OtherParticipantId,
+    string OtherParticipantFullName,
     DateTimeOffset UpdatedAtUtc,
     string? LastMessage);
 
 public sealed record ConversationMessageResponse(
     Guid Id,
     Guid SenderId,
+    string SenderFullName,
     string Body,
     DateTimeOffset CreatedAtUtc,
     DateTimeOffset? ReadAtUtc);

@@ -52,6 +52,8 @@ public sealed class RequestsController(
                 request.Listing.Title,
                 request.RequesterId,
                 request.ProviderId,
+                db.Users.Where(user => user.Id == request.RequesterId).Select(user => user.FullName).FirstOrDefault() ?? string.Empty,
+                db.Users.Where(user => user.Id == request.ProviderId).Select(user => user.FullName).FirstOrDefault() ?? string.Empty,
                 request.Status,
                 request.PriceXaf,
                 request.RequestedForUtc,
@@ -78,6 +80,8 @@ public sealed class RequestsController(
                 item.Listing.Title,
                 item.RequesterId,
                 item.ProviderId,
+                db.Users.Where(user => user.Id == item.RequesterId).Select(user => user.FullName).FirstOrDefault() ?? string.Empty,
+                db.Users.Where(user => user.Id == item.ProviderId).Select(user => user.FullName).FirstOrDefault() ?? string.Empty,
                 item.Status,
                 item.PriceXaf,
                 item.RequestedForUtc,
@@ -126,6 +130,10 @@ public sealed class RequestsController(
 
         db.Requests.Add(serviceRequest);
         await db.SaveChangesAsync(cancellationToken);
+        var providerFullName = await db.Users
+            .Where(participant => participant.Id == listing.ProviderId)
+            .Select(participant => participant.FullName)
+            .SingleAsync(cancellationToken);
 
         return CreatedAtAction(
             nameof(GetById),
@@ -136,6 +144,8 @@ public sealed class RequestsController(
                 listing.Title,
                 serviceRequest.RequesterId,
                 serviceRequest.ProviderId,
+                user.FullName,
+                providerFullName,
                 serviceRequest.Status,
                 serviceRequest.PriceXaf,
                 serviceRequest.RequestedForUtc,
@@ -241,6 +251,8 @@ public sealed record RequestSummary(
     string ListingTitle,
     Guid RequesterId,
     Guid ProviderId,
+    string RequesterFullName,
+    string ProviderFullName,
     ServiceRequestStatus Status,
     int PriceXaf,
     DateTimeOffset RequestedForUtc,

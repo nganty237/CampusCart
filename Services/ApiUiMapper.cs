@@ -30,12 +30,14 @@ public static class ApiUiMapper
     public static ServiceRequest ToRequest(RequestDto item, bool sent) => new(
         $"{item.RequestedForUtc.ToLocalTime():dd MMM · HH:mm} · {item.PriceXaf:N0} FCFA",
         item.Status switch { 0 => "En attente", 1 => "Acceptée", 2 => "Refusée", 3 => "Annulée", 4 => "À confirmer", 5 => "Terminée", _ => "Inconnue" },
-        item.ListingTitle, sent ? "Prestataire" : "Demandeur", "ET", item.HandoverLocation,
+        item.ListingTitle, sent ? item.ProviderFullName : item.RequesterFullName,
+        AppSession.GetInitials(sent ? item.ProviderFullName : item.RequesterFullName), item.HandoverLocation,
         Color.FromArgb("#DCE6FF"), Color.FromArgb("#315CEB"), item.RequestedForUtc.ToLocalTime().ToString("g"), item.HandoverLocation, item.Message)
-    { Id = item.Id, ListingId = item.ListingId, RequesterId = item.RequesterId, ProviderId = item.ProviderId, PriceXaf = item.PriceXaf };
+    { Id = item.Id, ListingId = item.ListingId, RequesterId = item.RequesterId, ProviderId = item.ProviderId,
+        PriceXaf = item.PriceXaf, IsSent = sent };
 
     public static Conversation ToConversation(ConversationDto item) => new(
-        "Étudiant", "ET", item.ListingTitle,
+        item.OtherParticipantFullName, AppSession.GetInitials(item.OtherParticipantFullName), item.ListingTitle,
         item.LastMessage ?? "Aucun message", item.UpdatedAtUtc.ToLocalTime().ToString("dd MMM HH:mm"), 0,
         Color.FromArgb("#DCE6FF"), "Demande liée au service", string.Empty, string.Empty, string.Empty, string.Empty)
         { Id = item.Id, OtherParticipantId = item.OtherParticipantId };

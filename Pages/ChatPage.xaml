@@ -55,6 +55,7 @@
                                         StrokeShape="RoundRectangle 11" Padding="10,8"
                                         HorizontalOptions="Start" MaximumWidthRequest="320">
                                     <VerticalStackLayout Spacing="5">
+                                        <Label Text="{Binding SenderName}" FontSize="9" FontAttributes="Bold" TextColor="#315CEB" />
                                         <Label Text="{Binding Text}" FontSize="10" TextColor="#343A46" />
                                         <Label Text="{Binding AttachmentName}" FontSize="10" TextColor="#315CEB"
                                                IsVisible="{Binding HasAttachment}" />

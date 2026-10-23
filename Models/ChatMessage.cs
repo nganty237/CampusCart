@@ -4,7 +4,8 @@ public sealed record ChatMessage(
     string Text,
     string TimeLabel,
     bool IsOutgoing,
-    string? AttachmentName = null)
+    string? AttachmentName = null,
+    string SenderName = "")
 {
     public bool HasAttachment => !string.IsNullOrWhiteSpace(AttachmentName);
     public bool IsIncoming => !IsOutgoing;

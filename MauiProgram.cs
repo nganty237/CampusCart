@@ -1,4 +1,4 @@
-ï»¿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
 using IconFont.Maui.MaterialDesignIcons;
 using CampusCart.Services;
@@ -34,9 +34,9 @@ public static class MauiProgram
 		{
 			var client = new HttpClient();
 #if ANDROID
-			// TÃ©lÃ©phone physique sur le mÃªme Wi-Fi que le PC qui exÃ©cute l'API.
-			// Pour l'Ã©mulateur Android, remplacer par http://10.0.2.2:5258/.
-			client.BaseAddress = new Uri("http://192.168.1.146:5258/");
+			// Téléphone physique sur le même Wi-Fi que le PC qui exécute l'API.
+			// Pour l'émulateur Android, remplacer par http://10.0.2.2:5258/.
+			client.BaseAddress = new Uri("http://10.83.255.100:5258/");
 #elif WINDOWS
 			client.BaseAddress = new Uri("http://localhost:5258/");
 #else
