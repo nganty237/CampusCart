@@ -34,9 +34,7 @@ public static class MauiProgram
 		{
 			var client = new HttpClient();
 #if ANDROID
-			// Téléphone physique sur le même Wi-Fi que le PC qui exécute l'API.
-			// Pour l'émulateur Android, remplacer par http://10.0.2.2:5258/.
-			client.BaseAddress = new Uri("http://10.83.255.100:5258/");
+			client.BaseAddress = new Uri("http://10.147.100.207:5258/");
 #elif WINDOWS
 			client.BaseAddress = new Uri("http://localhost:5258/");
 #else

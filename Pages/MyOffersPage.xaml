@@ -45,22 +45,24 @@
                                     StrokeShape="RoundRectangle 15" Padding="14">
                                 <VerticalStackLayout Spacing="10">
                                     <Grid ColumnDefinitions="*,Auto,36,36" ColumnSpacing="6">
-                                        <Label Text="{Binding Category}" FontSize="10" FontAttributes="Bold" TextColor="#65718A" />
+                                        <Label Text="{Binding Category}" FontSize="10" FontAttributes="Bold" TextColor="#65718A"
+                                               VerticalOptions="Center" VerticalTextAlignment="Center" />
                                         <Border Grid.Column="1" BackgroundColor="Transparent" StrokeThickness="0"
-                                                Padding="0">
+                                                Padding="0" HeightRequest="34" VerticalOptions="Center">
                                             <Label Text="{Binding Status}" FontSize="10" FontAttributes="Bold"
-                                                   TextColor="{Binding StatusColor}" />
+                                                   TextColor="{Binding StatusColor}" VerticalOptions="Center"
+                                                   VerticalTextAlignment="Center" />
                                         </Border>
                                         <Button Grid.Column="2" Text="&#xE3C9;" FontFamily="MaterialDesignIconsOutlined"
                                                 Command="{Binding EditCommand}" CommandParameter="{Binding .}"
                                                 BackgroundColor="Transparent" BorderWidth="0" TextColor="#315CEB" FontSize="18"
                                                 HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="0"
-                                                VerticalOptions="Center" HorizontalOptions="End" />
+                                                VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Button Grid.Column="3" Text="&#xE872;" FontFamily="MaterialDesignIconsOutlined"
                                                 Command="{Binding DeleteCommand}" CommandParameter="{Binding .}"
                                                 BackgroundColor="Transparent" BorderWidth="0" TextColor="#D94B54" FontSize="18"
                                                 HeightRequest="34" WidthRequest="34" Padding="0" CornerRadius="0"
-                                                VerticalOptions="Center" HorizontalOptions="End" />
+                                                VerticalOptions="Center" HorizontalOptions="Center" />
                                     </Grid>
                                     <Label Text="{Binding Title}" FontSize="15" FontAttributes="Bold" TextColor="#20232B" />
                                     <Label Text="{Binding Description}" FontSize="11" TextColor="#70798A"
